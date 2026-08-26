@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>المعلم منصور - مدرسة داوود (لوحة تحكم مادة العلوم)</title>
-    <!-- رابط ملف الـ Manifest لتثبيت التطبيق واعتمدنا أيقونة السجلات[cite: 3] -->
+    <!-- رابط ملف الـ Manifest لتثبيت التطبيق واعتمدنا أيقونة السجلات -->
     <link rel="manifest" href="manifest.json">
-    <!-- مكتبة SheetJS لتصدير واستيراد ملفات إكسل Excel[cite: 3] -->
+    <!-- مكتبة SheetJS لتصدير واستيراد ملفات إكسل Excel -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         :root {
@@ -592,7 +592,7 @@
         <p>لوحة تحكم معلم مادة العلوم للمرحلة الابتدائية (وفق المنهج السعودي)</p>
         <div class="subscription-badge">⏳ نهاية الاشتراك: 2027/07/01</div>
 
-        <!-- زر التثبيت البنفسجي المضاف هنا في الهيدر -->
+        <!-- زر التثبيت البنفسجي المضاف هنا في الهيدر بجانب المظهر -->
         <div style="margin-top: 15px;">
             <button onclick="installApp()" id="installBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-md hidden" style="background-color: #7c3aed;">
                 📱 تثبيت التطبيق كبرنامج مستقل
@@ -949,20 +949,18 @@
         </div>
 
     </div>
-    
-    <div class="section-card" style="text-align: center; background: #ffffff; margin: 20px auto; max-width: 600px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); padding: 20px;">
-        <h4 style="color: var(--secondary, #2563eb); margin: 0 0 15px 0; font-size: 16px;">💾 النسخ الاحتياطي وإدارة البيانات</h4>
-        <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-            <button class="btn-info" onclick="backupAllData()" style="background: #e11d48; padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; color: white; border: none; width: auto; font-weight: bold;">
-                💾 حفظ نسخة كاملة
-            </button>
-            <input type="file" id="importBackupFile" accept=".json" style="display: none;" onchange="restoreDashboardData(event)">
-            <button class="btn-warning" onclick="document.getElementById('importBackupFile').click()" style="background: #f59e0b; padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; color: white; border: none; width: auto; font-weight: bold;">
-                📂 استرجاع النسخة
-            </button>
-        </div>
+<div class="section-card" style="text-align: center; background: #ffffff; margin: 20px auto; max-width: 600px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); padding: 20px;">
+    <h4 style="color: var(--secondary, #2563eb); margin: 0 0 15px 0; font-size: 16px;">💾 النسخ الاحتياطي وإدارة البيانات</h4>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+        <button class="btn-info" onclick="backupAllData()" style="background: #e11d48; padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; color: white; border: none; width: auto; font-weight: bold;">
+            💾 حفظ نسخة كاملة
+        </button>
+        <input type="file" id="importBackupFile" accept=".json" style="display: none;" onchange="restoreDashboardData(event)">
+        <button class="btn-warning" onclick="document.getElementById('importBackupFile').click()" style="background: #f59e0b; padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; color: white; border: none; width: auto; font-weight: bold;">
+            📂 استرجاع النسخة
+        </button>
     </div>
-
+</div>
     <!-- الأزرار العائمة -->
     <div class="floating-action-buttons no-print">
         <a href="https://wa.me/966581015002" target="_blank" class="float-btn float-whatsapp" title="تواصل الدعم الفني عبر واتساب">💬</a>
@@ -995,23 +993,6 @@
                 });
             }
         }
-
-        // دالة العودة إلى أعلى الصفحة للزر العائم
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // إظهار وإخفاء زر العودة للأعلى حسب التمرير
-        window.onscroll = function() {
-            const topBtn = document.getElementById('scrollToTopBtn');
-            if (topBtn) {
-                if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                    topBtn.style.display = 'flex';
-                } else {
-                    topBtn.style.display = 'none';
-                }
-            }
-        };
 
         const TEACHER_NAME = "منصور";
         const SCHOOL_NAME = "مدرسة داوود (طلاب)";
@@ -1103,7 +1084,7 @@
         let lessons = JSON.parse(localStorage.getItem(getStorageKeyForLessons())) || gradeScienceData[currentGrade];
         let students = JSON.parse(localStorage.getItem(getStorageKeyForStudents())) || [];
         let lessonStatus = JSON.parse(localStorage.getItem(getStorageKeyForStatus())) || {};
-        let lessonMastery = JSON.parse(localStorage.getItem(getStorageKeyForMastery())) || {};
+        let lessonMastery = JSON.parse(localStorage.getItem(getStorageKeyForMastery())) || {}; // { studentIndex: { lessonIndex: true/false } }
 
         function checkBackupReminder() {
             const lastBackup = localStorage.getItem('mansour_last_backup_date');
@@ -1196,9 +1177,12 @@
 
             bulkSelectHomeworkLesson.innerHTML += lessonsGroup;
 
+            let motivGroup = '<optgroup label="🌟 الرسائل التشجيعية والتحفيزية">';
             customMotivations.forEach((m, idx) => { 
+                motivGroup += `<option value="motiv-${idx}">${m.title}</option>`; 
                 selectMotivation.innerHTML += `<option value="motiv-${idx}">${m.title}</option>`;
             });
+            motivGroup += '</optgroup>';
 
             document.getElementById('totalExecutedLessons').textContent = `${executedCount} / ${lessons.length}`;
             renderMasteryDropdowns();
@@ -1424,6 +1408,7 @@
                 students.splice(index, 1);
                 localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(students));
                 delete lessonMastery[index];
+                // إعادة ترتيب الـ mastery indices
                 let newMastery = {};
                 Object.keys(lessonMastery).forEach(k => {
                     let oldIdx = Number(k);
@@ -1525,6 +1510,7 @@
             });
         }
 
+        // دوال نظام إتقان الدروس لكل طالب
         function renderMasteryTable() {
             const lessonIdx = document.getElementById('masteryLessonSelect').value;
             const selectedClass = document.getElementById('masteryClassSelect').value;
@@ -1692,6 +1678,7 @@
             showToast('📊 تم تصدير ملف الإكسل بنجاح!');
         }
 
+        // ميزة التصدير لربط سحابي بسيط (Google Sheets عبر CSV) لحماية البيانات
         function exportToGoogleSheetsCSV() {
             if(students.length === 0) { alert('لا توجد بيانات طلاب لتصديرها!'); return; }
             let csvContent = "\uFEFFاسم الطالب,الصف,رقم الجوال,الغياب,المشاركة,الواجبات,التجارب,اختبار 1,اختبار 2\n";
@@ -1706,7 +1693,7 @@
             document.body.appendChild(a);
             a.click();
             a.remove();
-            showToast('☁️ تم تصدير ملف متوافق مع Google Sheets بنجاح!');
+            showToast('☁️ تم تصدير ملف متوافق مع Google Sheets بنجاح! يمكنك استيراده مباشرة لملفات جوجل.');
         }
 
         function importExcel(event) {
@@ -1752,7 +1739,7 @@
 
                     localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(students));
                     render();
-                    showToast(`📂 تمت استعادة واستيراد (${count}) طالب بنجاح!`);
+                    showToast(`📂 تمت استعادة واستيراد (${count}) طالب بنجاح من ملف الإكسل!`);
                 } catch(err) {
                     console.error(err);
                     alert('حدث خطأ أثناء قراءة ملف الإكسل.');
@@ -1779,7 +1766,7 @@
             dlAnchor.click();
             dlAnchor.remove();
             localStorage.setItem('mansour_last_backup_date', Date.now().toString());
-            showToast('💾 تم تصدير النسخة الاحتياطية بنجاح!');
+            showToast('💾 تم تصدير النسخة الاحتياطية الشاملة بنجاح!');
         }
 
         function importData(event) {
@@ -1869,6 +1856,7 @@
             document.getElementById('sdHomework').textContent = s.homework || 0;
             document.getElementById('sdAbsence').textContent = s.absence || 0;
             
+            // حساب عدد الدروس المتقنة لهذا الطالب
             let studentMasteredCount = 0;
             lessons.forEach((l, lIdx) => {
                 if (lessonMastery[index] && lessonMastery[index][lIdx]) studentMasteredCount++;
