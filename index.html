@@ -190,6 +190,7 @@
             font-size: 14px;
             background-color: var(--card-bg);
             color: var(--text);
+            box-sizing: border-box;
         }
 
         button {
@@ -430,13 +431,54 @@
             z-index: 1000;
         }
 
-        .backup-controls {
+        /* تحسين التجاوب وجعل أزرار التحكم مستطيلات فوق بعضها بشكل متناسق */
+        .backup-controls,
+        .stacked-controls {
             display: flex;
+            flex-direction: column;
             gap: 10px;
-            margin-top: 15px;
+            width: 100%;
+            max-width: 480px;
+            margin: 15px auto 0 auto;
+            box-sizing: border-box;
+        }
+
+        .backup-controls {
             padding-top: 15px;
             border-top: 1px dashed #ccc;
-            flex-wrap: wrap;
+        }
+
+        .backup-controls button,
+        .stacked-controls button,
+        .stacked-controls select,
+        .stacked-controls input {
+            width: 100% !important;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 !important;
+        }
+
+        .section-header-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .section-header-row h3 {
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+
+        .section-header-row button {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
         }
 
         .class-badge {
@@ -663,7 +705,7 @@
 
         <!-- تسجيل الطلاب والصفوف والجدول -->
         <div class="section-card" id="studentsTableSection">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 15px;">
+            <div class="section-header-row">
                 <h3 style="margin: 0; border: none; padding: 0;">✏️ تسجيل الطلاب والصفوف ومتابعتهم</h3>
                 <button class="btn-print no-print" onclick="printSection('studentsTableSection')" title="طباعة جدول الطلاب والصفوف">🖨️ طباعة الجدول</button>
             </div>
@@ -719,7 +761,7 @@
                 <input type="file" id="importExcelFile" accept=".xlsx, .xls" style="display: none;" onchange="importExcel(event)">
 
                 <button class="btn-success" onclick="exportToGoogleSheetsCSV()">☁️ تصدير لـ Google Sheets (CSV)</button>
-                <button class="btn-info" onclick="exportData()" style="margin-right: auto;">💾 تصدير JSON</button>
+                <button class="btn-info" onclick="exportData()">💾 تصدير JSON</button>
                 <button class="btn-warning" onclick="document.getElementById('importFile').click()">📂 استرجاع JSON</button>
                 <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
             </div>
@@ -727,12 +769,12 @@
 
         <!-- نظام تتبع إتقان الدروس لكل طالب -->
         <div class="section-card" id="lessonMasterySection">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 15px;">
-                <h3 style="margin: 0; border: none; padding: 0;">🎯 تتبع إتقان كل درس لكل طالب (متقن / بحاجة مراجعة)</h3>
+            <div class="section-header-row">
+                <h3>🎯 تتبع إتقان كل درس لكل طالب (متقن / بحاجة مراجعة)</h3>
                 <button class="btn-print" onclick="printSection('lessonMasterySection')">🖨️ طباعة تقرير إتقان الدروس</button>
             </div>
 
-            <div class="form-row no-print">
+            <div class="stacked-controls no-print">
                 <select id="masteryLessonSelect" onchange="renderMasteryTable()">
                     <option value="">-- اختر الدرس لتحديد حالة الإتقان للطلاب --</option>
                 </select>
@@ -774,12 +816,12 @@
 
         <!-- رصد اختبارات الفترة الأولى والثانية -->
         <div class="section-card" id="examsSection">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 15px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📊 رصد وتحليل اختبارات الفترة الأولى والفترة الثانية (من ٢٠) 📝</h3>
+            <div class="section-header-row">
+                <h3>📊 رصد وتحليل اختبارات الفترة الأولى والفترة الثانية (من ٢٠) 📝</h3>
                 <button class="btn-print" onclick="printSection('examsSection')">🖨️ طباعة تقرير رصد وتحليل الاختبارات</button>
             </div>
             
-            <div class="form-row no-print">
+            <div class="stacked-controls no-print">
                 <select id="examClassSelect" onchange="renderExamsTable()">
                     <option value="">-- اختر الصف لعرض وسجل الاختبارات --</option>
                 </select>
@@ -819,8 +861,8 @@
 
         <!-- استعلام عن طالب -->
         <div class="section-card" id="studentReportSection">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 10px; margin-bottom: 15px;">
-                <h3 style="margin: 0; border: none; padding: 0;">🔍 استعلام وتتبع طالب محدد</h3>
+            <div class="section-header-row">
+                <h3>🔍 استعلام وتتبع طالب محدد</h3>
                 <button class="btn-print no-print" onclick="printSection('studentReportSection')">🖨️ طباعة تقرير الطالب</button>
             </div>
             <div class="form-row no-print">
@@ -843,9 +885,9 @@
                     </div>
                 </div>
 
-                <div class="form-row no-print" style="margin-top: 15px;">
+                <div class="stacked-controls no-print" style="margin-top: 15px;">
                     <button class="btn-print" onclick="printStudentReport()">🖨️ طباعة تقرير الطالب الرسمي</button>
-                    <button class="whatsapp-btn" onclick="sendFullReportWhatsApp()" style="border: none; cursor: pointer; margin-top: 0; width: 100%;">📤 إرسال التقرير الشامل لولي الأمر عبر واتساب</button>
+                    <button class="whatsapp-btn" onclick="sendFullReportWhatsApp()" style="border: none; cursor: pointer;">📤 إرسال التقرير الشامل لولي الأمر عبر واتساب</button>
                 </div>
 
                 <div class="sub-box">
@@ -951,12 +993,12 @@
     </div>
 <div class="section-card" style="text-align: center; background: #ffffff; margin: 20px auto; max-width: 600px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); padding: 20px;">
     <h4 style="color: var(--secondary, #2563eb); margin: 0 0 15px 0; font-size: 16px;">💾 النسخ الاحتياطي وإدارة البيانات</h4>
-    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-        <button class="btn-info" onclick="backupAllData()" style="background: #e11d48; padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; color: white; border: none; width: auto; font-weight: bold;">
+    <div class="stacked-controls">
+        <button class="btn-info" onclick="backupAllData()" style="background: #e11d48; padding: 12px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; color: white; border: none; font-weight: bold;">
             💾 حفظ نسخة كاملة
         </button>
         <input type="file" id="importBackupFile" accept=".json" style="display: none;" onchange="restoreDashboardData(event)">
-        <button class="btn-warning" onclick="document.getElementById('importBackupFile').click()" style="background: #f59e0b; padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; color: white; border: none; width: auto; font-weight: bold;">
+        <button class="btn-warning" onclick="document.getElementById('importBackupFile').click()" style="background: #f59e0b; padding: 12px 20px; font-size: 14px; border-radius: 6px; cursor: pointer; color: white; border: none; font-weight: bold;">
             📂 استرجاع النسخة
         </button>
     </div>
@@ -1007,7 +1049,7 @@
 
         const defaultMotivations = [
             { id: "1", title: "1. عالم المستقبل المتميز", text: "🌟 **عالم المستقبل المتميز** 🌟\nعزيزي ولي الأمر، نفخر اليوم بتميز ابنكم وتألقه في حصة العلوم ومشاركته في التجارب العملية بحماس ونشاط. بوركت جهودكم!" },
-            { id: "2", title: "2. تفوق ملحوظ في الملاحظة والاستنتاج", text: "🔬 **تفوق ملحوظ في الملاحظة العلمية** 🔬\nعزيزي ولي الأمر، أظهر ابنكم اليوم مهارات دقيقة في الملاحظة والتجريب واستنباط النتائج. أحسنت صنعاً!" },
+            { id: "2", title: "2. تفوق ملحوظ في الملاحظة واستنتاج", text: "🔬 **تفوق ملحوظ في الملاحظة العلمية** 🔬\nعزيزي ولي الأمر، أظهر ابنكم اليوم مهارات دقيقة في الملاحظة والتجريب واستنباط النتائج. أحسنت صنعاً!" },
             { id: "3", title: "3. دقة وإتقان في المفاهيم العلمية", text: "🌱 **دقة وإتقان في المفاهيم والعلوم** 🌱\nعزيزي ولي الأمر، تميز ابنكم اليوم باستيعابه العميق للحقائق العلمية وتوظيفها بذكاء. بارك الله في جهوده!" },
             { id: "4", title: "4. مشاركة نشطة وفعالة في حصة العلوم", text: "✋ **مشاركة نشطة وتفاعل علمي متميز** ✋\nعزيزي ولي الأمر، تميز ابنكم اليوم بحرصه العالي ومشاركته النشطة وإجاباته العلمية الموفقة داخل الصف." },
             { id: "5", title: "5. حصيلة استكشافية وتجارب ممتازة", text: "🧠 **حصيلة استكشافية وتجارب ممتازة** 🧠\nعزيزي ولي الأمر، أبدع ابنكم اليوم في تنفيذ التجارب الاستهلالية والاستكشافية بمهارة عالية. مبروك له!" },
@@ -1084,7 +1126,7 @@
         let lessons = JSON.parse(localStorage.getItem(getStorageKeyForLessons())) || gradeScienceData[currentGrade];
         let students = JSON.parse(localStorage.getItem(getStorageKeyForStudents())) || [];
         let lessonStatus = JSON.parse(localStorage.getItem(getStorageKeyForStatus())) || {};
-        let lessonMastery = JSON.parse(localStorage.getItem(getStorageKeyForMastery())) || {}; // { studentIndex: { lessonIndex: true/false } }
+        let lessonMastery = JSON.parse(localStorage.getItem(getStorageKeyForMastery())) || {};
 
         function checkBackupReminder() {
             const lastBackup = localStorage.getItem('mansour_last_backup_date');
@@ -1408,7 +1450,6 @@
                 students.splice(index, 1);
                 localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(students));
                 delete lessonMastery[index];
-                // إعادة ترتيب الـ mastery indices
                 let newMastery = {};
                 Object.keys(lessonMastery).forEach(k => {
                     let oldIdx = Number(k);
@@ -1510,7 +1551,6 @@
             });
         }
 
-        // دوال نظام إتقان الدروس لكل طالب
         function renderMasteryTable() {
             const lessonIdx = document.getElementById('masteryLessonSelect').value;
             const selectedClass = document.getElementById('masteryClassSelect').value;
@@ -1678,7 +1718,6 @@
             showToast('📊 تم تصدير ملف الإكسل بنجاح!');
         }
 
-        // ميزة التصدير لربط سحابي بسيط (Google Sheets عبر CSV) لحماية البيانات
         function exportToGoogleSheetsCSV() {
             if(students.length === 0) { alert('لا توجد بيانات طلاب لتصديرها!'); return; }
             let csvContent = "\uFEFFاسم الطالب,الصف,رقم الجوال,الغياب,المشاركة,الواجبات,التجارب,اختبار 1,اختبار 2\n";
@@ -1856,7 +1895,6 @@
             document.getElementById('sdHomework').textContent = s.homework || 0;
             document.getElementById('sdAbsence').textContent = s.absence || 0;
             
-            // حساب عدد الدروس المتقنة لهذا الطالب
             let studentMasteredCount = 0;
             lessons.forEach((l, lIdx) => {
                 if (lessonMastery[index] && lessonMastery[index][lIdx]) studentMasteredCount++;
