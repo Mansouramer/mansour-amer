@@ -605,7 +605,12 @@
         .float-whatsapp { background: #25D366; }
         .float-top { background: var(--primary); display: none; }
 
+        /* تنسيق مخصص لطباعة الاختبار في ورقة واحدة A4 بشكل أنيق ومنظم */
         @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm;
+            }
             body * { visibility: hidden !important; }
             .printing-section, .printing-section * {
                 visibility: visible !important;
@@ -621,20 +626,18 @@
                 background: #ffffff !important;
                 box-shadow: none !important;
                 margin: 0 !important;
-                padding: 10px !important;
-            }
-            .printing-section table, 
-            .printing-section th, 
-            .printing-section td {
-                border: 2px solid #000000 !important;
-                color: #000000 !important;
-            }
-            .printing-section th {
-                background-color: #d1d5db !important;
-                font-weight: bold !important;
+                padding: 4px !important;
             }
             .no-print, button, select, textarea, .pagination-bar, .backup-controls, .form-row, .classes-query-grid, .floating-action-buttons, .top-banner {
                 display: none !important;
+            }
+            /* تقليص الهوامش وحجم خطوط الأسئلة لضمان احتواء ورقة واحدة بالكامل */
+            #printTestQuestionsList > div {
+                margin-bottom: 4px !important;
+                padding: 3px 5px !important;
+                font-size: 10px !important;
+                line-height: 1.25 !important;
+                border-right: 2px solid #000 !important;
             }
         }
     </style>
@@ -714,11 +717,11 @@
             </div>
         </div>
 
-        <!-- 📑 قسم الاختبارات (أسئلة قياس مبسطة ومنوعة ومناسبة للمرحلة الابتدائية) -->
+        <!-- 📑 قسم الاختبارات (أسئلة قياس مبسطة ومنوعة ومناسبة للمرحلة الابتدائية في ورقة واحدة) -->
         <div class="section-card" id="testGeneratorSection">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 مولد اختبارات القياس المبسطة (10 أسئلة منوعة ومدروسة)</h3>
-                <button class="btn-print" onclick="printSection('testGeneratorSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الاختبار</button>
+                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 مولد اختبارات القياس (10 أسئلة مبسطة في ورقة واحدة)</h3>
+                <button class="btn-print" onclick="printSection('testGeneratorSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الاختبار (ورقة واحدة)</button>
             </div>
 
             <div class="form-row no-print">
@@ -730,19 +733,19 @@
                 <select id="genTestModelSelect" class="border p-2 rounded">
                     <!-- يتم تعبئة النماذج ديناميكياً -->
                 </select>
-                <button onclick="generateSpecificModelTest()" class="btn-info" style="width: 100%;">⚡ توليد ونشر النموذج المختار (10 أسئلة واضحة)</button>
+                <button onclick="generateSpecificModelTest()" class="btn-info" style="width: 100%;">⚡ توليد ونشر النموذج المختار (10 أسئلة)</button>
             </div>
 
-            <div id="testPreviewArea" class="sub-box" style="display: none; background: #ffffff; border: 2px solid var(--secondary);">
-                <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 8px;">
-                    <h4 id="printTestHeaderTitle" style="margin: 0; color: #000; font-size: 15px;">نموذج اختبار</h4>
-                    <p style="font-size: 11px; margin: 3px 0; color: #000;">مدرسة داوود بن عروة الثقفي الابتدائية (طلاب) | معلم المادة: منصور عامر الرحيلي | الصف: <span id="printTestGrade"></span></p>
-                    <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 6px; color: #000;">
+            <div id="testPreviewArea" class="sub-box" style="display: none; background: #ffffff; border: 2px solid var(--secondary); padding: 8px;">
+                <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 6px;">
+                    <h4 id="printTestHeaderTitle" style="margin: 0; color: #000; font-size: 14px;">نموذج اختبار</h4>
+                    <p style="font-size: 10px; margin: 2px 0; color: #000;">مدرسة داوود بن عروة الثقفي الابتدائية (طلاب) | معلم المادة: منصور عامر الرحيلي | الصف: <span id="printTestGrade"></span></p>
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; margin-top: 4px; color: #000;">
                         <span>اسم الطالب: ....................................................</span>
                         <span>الدرجة: ........ / ١٠</span>
                     </div>
                 </div>
-                <div id="printTestQuestionsList" style="font-size: 12px; color: #000; line-height: 1.5;">
+                <div id="printTestQuestionsList" style="font-size: 11px; color: #000; line-height: 1.35;">
                     <!-- تفاصيل 10 أسئلة الاختيار من متعدد -->
                 </div>
             </div>
@@ -1296,12 +1299,12 @@
             document.getElementById('printTestGrade').textContent = currentGrade;
 
             const listContainer = document.getElementById('printTestQuestionsList');
-            let qHTML = `<div style="margin-bottom: 8px; font-weight: bold; background: rgba(0,0,0,0.035); padding: 6px;">مستهدف التقييم: ${currentGrade} - 10 أسئلة مبسطة تناسب مستوى الطلاب ومستواهم العمري</div>`;
+            let qHTML = `<div style="margin-bottom: 4px; font-weight: bold; background: rgba(0,0,0,0.035); padding: 4px; font-size:10px;">مستهدف التقييم: ${currentGrade} - 10 أسئلة مبسطة ومنسقة لورقة واحدة</div>`;
 
             const simplifiedQuestionsBank = [
                 {
                     q: "السؤال 1: أي مما يلي يعتبر من الحاجات الأساسية للمخلوقات الحية لكي تعيش؟",
-                    opts: ["أ) الماء والهواء والغذاء", "ب) الألعاب الإلكترونية", "ج) السيارات السريعة", "د) الهواتف الذكية"]
+                    opts: ["أ) الماء والهواء والغذاء", "ب) الألعاب", "ج) السيارات", "د) الهواتف"]
                 },
                 {
                     q: "السؤال 2: أي جزء من النبات يمتص الماء والأملاح المعدنية من التربة؟",
@@ -1309,11 +1312,11 @@
                 },
                 {
                     q: "السؤال 3: ما هي الحالة التي تكون عليها المياه داخل جدول الماء أو البحر؟",
-                    opts: ["أ) حالة صلبة", "ب) حالة غازية", "ج) حالة سائلة", "د) حالة جامدة جداً"]
+                    opts: ["أ) صلبة", "ب) غازية", "ج) سائلة", "د) جامدة"]
                 },
                 {
                     q: "السؤال 4: كيف تنتقل الأجسام أو تلعب بالكرة بدفعها أو سحبها؟",
-                    opts: ["أ) باستخدام القوة", "ب) باستخدام الصوت", "ج) باستخدام الظل", "د) باستخدام الضوء"]
+                    opts: ["أ) باستخدام القوة", "ب) بالصوت", "ج) بالظل", "د) بالضوء"]
                 },
                 {
                     q: "السؤال 5: أي من الحواس الخمس تستخدم لمعرفة ألوان الأجسام والزهور؟",
@@ -1321,7 +1324,7 @@
                 },
                 {
                     q: "السؤال 6: ما هو المصدر الطبيعي الرئيسي للضوء والدفء على كوكب الأرض؟",
-                    opts: ["أ) القمر", "ب) النجوم البعيدة", "ج) الشمس", "د) المصباح اليدوي"]
+                    opts: ["أ) القمر", "ب) النجوم", "ج) الشمس", "د) المصباح"]
                 },
                 {
                     q: "السؤال 7: ماذا يسمى الغلاف الجوي المحيط بكوكب الأرض ويتكون من غازات نتنفسها؟",
@@ -1333,30 +1336,28 @@
                 },
                 {
                     q: "السؤال 9: عندما ننظر إلى السماء في فصل الصيف، كيف يكون حالة الطقس الغالبة؟",
-                    opts: ["أ) مشمس وحار", "ب) ثلجي وبارد جداً", "ج) ممطر بغزارة طوال العام", "د) عواصف ثلجية"]
+                    opts: ["أ) مشمس وحار", "ب) ثلجي وبارد", "ج) ممطر بغزارة", "د) عواصف"]
                 },
                 {
                     q: "السؤال 10: ما هي أهمية غسل اليدين بالماء والصابون بانتظام؟",
-                    opts: ["أ) لتجنب الأوساخ والأمراض وحماية الجسم", "ب) لإضاعة الوقت فقط", "ج) لتلوين الأصابع", "د) لجعل اليدين باردة"]
+                    opts: ["أ) لتجنب الأوساخ والأمراض وحماية الجسم", "ب) لإضاعة الوقت", "ج) لتلوين الأصابع", "د) لجعل اليدين باردة"]
                 }
             ];
 
             simplifiedQuestionsBank.forEach((item, idx) => {
                 qHTML += `
-                    <div style="margin-bottom: 10px; padding: 7px; background: rgba(0,0,0,0.02); border-radius: 4px; border-right: 3px solid var(--secondary);">
+                    <div style="margin-bottom: 5px; padding: 4px 6px; background: rgba(0,0,0,0.015); border-radius: 3px; border-right: 2px solid var(--secondary);">
                         <strong>${item.q}</strong><br>
-                        <div style="margin-top: 4px; padding-right: 10px; line-height: 1.6;">
-                            ${item.opts[0]}<br>
-                            ${item.opts[1]}<br>
-                            ${item.opts[2]}<br>
-                            ${item.opts[3]}
-                        </div>
+                        <span style="display:inline-block; margin-left:12px;">${item.opts[0]}</span>
+                        <span style="display:inline-block; margin-left:12px;">${item.opts[1]}</span>
+                        <span style="display:inline-block; margin-left:12px;">${item.opts[2]}</span>
+                        <span style="display:inline-block;">${item.opts[3]}</span>
                     </div>
                 `;
             });
 
             listContainer.innerHTML = qHTML;
-            showToast(`⚡ تم توليد وعرض (${titleText}) بأسئلة مبسطة بنجاح!`);
+            showToast(`⚡ تم توليد وعرض (${titleText}) في ورقة واحدة بنجاح!`);
         }
 
         // دوال التصحيح الآلي (10 أسئلة)
@@ -2158,7 +2159,7 @@
                     } else if(imported && typeof imported === 'object') {
                         if(imported.students) {
                             students = imported.students;
-                            localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(students));
+                            localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(imported.students));
                         }
                         if(imported.lessons) {
                             lessons = imported.lessons;
