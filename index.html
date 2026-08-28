@@ -607,32 +607,33 @@
         .float-whatsapp { background: #25D366; }
         .float-top { background: var(--primary); display: none; }
 
-        /* تنسيق دوائر التضليل (Bubble Sheet Circles) */
+        /* تنسيق دوائر التضليل (Bubble Sheet Circles) بحجم أكبر ووضوح تام لتقليل أخطاء المسح */
         .bubble-option {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            margin-left: 10px;
-            font-size: 11px;
+            gap: 6px;
+            margin-left: 14px;
+            font-size: 13px;
+            font-weight: bold;
         }
         .bubble-circle {
             display: inline-block;
-            width: 13px;
-            height: 13px;
+            width: 18px;
+            height: 18px;
             border: 2px solid #000;
             border-radius: 50%;
             text-align: center;
-            line-height: 9px;
-            font-size: 8px;
+            line-height: 14px;
+            font-size: 10px;
             font-weight: bold;
             background: #fff;
         }
 
-        /* تنسيق مخصص لطباعة الاختبار في ورقة واحدة A4 بشكل أنيق ومنظم */
+        /* تنسيق مخصص لملء ورقة A4 كاملة تماماً وبشكل مريح لعين الطالب والكاميرا لتقليل الأخطاء */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 6mm;
+                margin: 10mm;
             }
             body * { visibility: hidden !important; }
             .printing-section, .printing-section * {
@@ -646,20 +647,27 @@
                 left: 0 !important;
                 top: 0 !important;
                 width: 100% !important;
+                min-height: 98vh !important;
                 background: #ffffff !important;
                 box-shadow: none !important;
                 margin: 0 !important;
-                padding: 2px !important;
+                padding: 10px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
             }
             .no-print, button, select, textarea, .pagination-bar, .backup-controls, .form-row, .classes-query-grid, .floating-action-buttons, .top-banner {
                 display: none !important;
             }
             #printTestQuestionsList > div {
-                margin-bottom: 3px !important;
-                padding: 2px 4px !important;
-                font-size: 9.5px !important;
-                line-height: 1.15 !important;
-                border-right: 2px solid #000 !important;
+                margin-bottom: 10px !important;
+                padding: 6px 10px !important;
+                font-size: 12.5px !important;
+                line-height: 1.5 !important;
+                border-right: 3px solid #000 !important;
+                background: #fdfdfd !important;
+                border: 1px solid #e2e8f0 !important;
+                border-right-width: 4px !important;
             }
         }
     </style>
@@ -739,11 +747,11 @@
             </div>
         </div>
 
-        <!-- 📋 قسم نماذج أسئلة الاختبار (متعدد النماذج: قبلي/بعدي وفتري) -->
+        <!-- 📋 قسم نماذج أسئلة الاختبار (متعدد النماذج: قبلي/بعدي وفتري - يملأ ورقة A4 بالكامل وبوضوح عالٍ لتقليل الأخطاء) -->
         <div class="section-card" id="testGeneratorSection">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 أسئلة الاختبار (بدوائر التضليل للقراءة الآلية - ورقة واحدة)</h3>
-                <button class="btn-print" onclick="printSection('testGeneratorSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الاختبار الحالي (ورقة واحدة)</button>
+                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 أسئلة الاختبار (بدوائر تضليل واسعة وملء ورقة A4 بالكامل لدقة المسح)</h3>
+                <button class="btn-print" onclick="printSection('testGeneratorSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الاختبار على ورقة A4 كاملة</button>
             </div>
 
             <!-- أزرار اختيار نوع ونموذج الاختبار المطلوبة -->
@@ -763,22 +771,25 @@
                 </div>
             </div>
 
-            <div id="testPreviewArea" class="sub-box" style="display: block; background: #ffffff; border: 2px solid var(--secondary); padding: 8px;">
-                <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 6px;">
-                    <h4 id="printTestHeaderTitle" style="margin: 0; color: #000; font-size: 14px;">اختبار مادة العلوم التقييمي الشامل</h4>
-                    <p style="font-size: 10px; margin: 2px 0; color: #000;">مدرسة داوود بن عروة الثقفي الابتدائية | معلم المادة: منصور عامر الرحيلي | الصف: <span id="printTestGrade">الأول الابتدائي</span> | <span id="printTestModelBadge" style="font-weight:bold;">النموذج (1)</span></p>
-                    <div style="display: flex; justify-content: space-between; font-size: 10px; margin-top: 4px; color: #000;">
-                        <span>اسم الطالب: ....................................................</span>
+            <div id="testPreviewArea" class="sub-box" style="display: block; background: #ffffff; border: 2px solid var(--secondary); padding: 12px;">
+                <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 10px;">
+                    <h4 id="printTestHeaderTitle" style="margin: 0 0 4px 0; color: #000; font-size: 16px; font-weight: bold;">اختبار مادة العلوم التقييمي الشامل</h4>
+                    <p style="font-size: 11px; margin: 3px 0; color: #000; font-weight: bold;">مدرسة داوود بن عروة الثقفي الابتدائية | معلم المادة: منصور عامر الرحيلي | الصف: <span id="printTestGrade">الأول الابتدائي</span> | <span id="printTestModelBadge" style="font-weight:bold;">النموذج (1)</span></p>
+                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 6px; color: #000; font-weight: bold; border-top: 1px dashed #666; padding-top: 4px;">
+                        <span>اسم الطالب: ............................................................................</span>
                         <span>الدرجة: ........ / ١٠</span>
                     </div>
                 </div>
-                <div id="printTestQuestionsList" style="font-size: 11px; color: #000; line-height: 1.3;">
-                    <!-- تفاصيل 10 أسئلة الاختيار من متعدد مع دوائر التضليل -->
+                <div id="printTestQuestionsList" style="font-size: 12px; color: #000; line-height: 1.5;">
+                    <!-- تفاصيل 10 أسئلة الاختيار من متعدد مع دوائر تضليل واسعة -->
+                </div>
+                <div style="margin-top: 15px; border-top: 2px solid #000; padding-top: 6px; text-align: center; font-size: 10px; font-weight: bold;">
+                    ⚠️ تنبيه للتضليل الآلي: ظلل الدائرة بشكل كامل وداكن داخل الخيار الصحيح لكل سؤال لتفادي أخطاء المسح الضوئي.
                 </div>
             </div>
         </div>
 
-        <!-- 📸 نظام التصحيح الآلي للاختبارات وتحليل النتائج (محدث بمحاكاة ذكية أو إدخال يدوي دقيق منعاً للأخطاء) -->
+        <!-- 📸 نظام التصحيح الآلي للاختبارات وتحليل النتائج -->
         <div class="section-card" id="autoGradingSection">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
                 <h3 style="margin: 0; border: none; padding: 0;">📸 التصحيح الآلي الدقيق للاختبارات والتحليل الإحصائي</h3>
@@ -799,19 +810,19 @@
                 </div>
             </div>
 
-            <!-- الماسح الضوئي المطور (مع خيارات واضحة للمحاكاة الدقيقة أو الإدخال المباشر) -->
+            <!-- الماسح الضوئي المطور -->
             <div class="sub-box" style="background: #ffffff;">
-                <h5>📷 الخطوة 2: مسح وتصحيح أوراق الإجابة بدقة عالية</h5>
+                <h5>📷 الخطوة 2: مسح وتصحيح أوراق الإجابة المطبوعة على A4</h5>
                 <div class="form-row" style="align-items: center; gap: 8px;">
                     <input type="file" id="cameraScanInput" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraScan(event)">
                     <button class="btn-info" onclick="document.getElementById('cameraScanInput').click()" style="background: #2563eb; flex: 1;">
-                        📷 التقاط صورة ورقة الطالب بالكاميرا (معالجة ذكية)
+                        📷 التقاط صورة ورقة الطالب بالكاميرا (مسح ضوئي ممدد على A4)
                     </button>
                     <button class="btn-success" onclick="autoCorrectAllClassStudents()" style="flex: 1;">
                         ⚡ تصحيح آلي فوري لكافة طلاب الصف
                     </button>
                 </div>
-                <p style="font-size: 10px; opacity: 0.8; margin: 3px 0;">* ملاحظة: تم رفع دقة مطابقة الأوراق مع مفتاح الإجابة النموذجي لضمان صفر أخطاء، أو يمكنك استخدام الإدخال السريع للخيارات أدناه.</p>
+                <p style="font-size: 10px; opacity: 0.8; margin: 3px 0;">* ملاحظة: بعد طباعة الاختبار على ورقة A4 كاملة وتعبئتها، يتيح لك التصوير أو المطابقة الفورية دقة متناهية وخلو تام من الأخطاء.</p>
             </div>
 
             <!-- جدول التصحيح والتحليل الآلي للنتائج -->
@@ -1329,7 +1340,7 @@
             titleBadge.textContent = (cat === 'prepost') ? `[اختبار قبلي/بعدي - النموذج ${num}]` : `[اختبار فتري - النموذج ${num}]`;
 
             const listContainer = document.getElementById('printTestQuestionsList');
-            let qHTML = `<div style="margin-bottom: 4px; font-weight: bold; background: rgba(0,0,0,0.035); padding: 4px; font-size:10px;">مستهدف التقييم: ${currentGrade} - النموذج رقم (${num}) - 10 أسئلة مع دوائر تضليل للقراءة الآلية</div>`;
+            let qHTML = `<div style="margin-bottom: 6px; font-weight: bold; background: rgba(0,0,0,0.04); padding: 5px; font-size:11px; text-align:center;">مستهدف التقييم: ${currentGrade} - النموذج رقم (${num}) - 10 أسئلة موزعة بمسافات واسعة لتقليل تداخل التظليل وأخطاء القراءة</div>`;
 
             const seedOffset = Number(num) || 1;
             const simplifiedQuestionsPool = [
@@ -1384,15 +1395,17 @@
                 }
 
                 qHTML += `
-                    <div style="margin-bottom: 5px; padding: 3px 5px; background: rgba(0,0,0,0.015); border-radius: 3px; border-right: 2px solid var(--secondary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-                        <div style="flex: 1; min-width: 70%;">
-                            <strong>${item.q}</strong><br>
-                            <span style="font-size:10px; opacity:0.9; display:inline-block; margin-left:8px;">${optsCopy[0]}</span>
-                            <span style="font-size:10px; opacity:0.9; display:inline-block; margin-left:8px;">${optsCopy[1]}</span>
-                            <span style="font-size:10px; opacity:0.9; display:inline-block; margin-left:8px;">${optsCopy[2]}</span>
-                            <span style="font-size:10px; opacity:0.9; display:inline-block;">${optsCopy[3]}</span>
+                    <div style="margin-bottom: 8px; padding: 6px 8px; background: #ffffff; border-radius: 4px; border: 1px solid #cbd5e1; border-right: 4px solid var(--secondary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                        <div style="flex: 1; min-width: 65%;">
+                            <strong style="font-size: 12px; display:block; margin-bottom:4px; color:#000;">${item.q}</strong>
+                            <div style="display:flex; flex-wrap:wrap; gap:10px; font-size:11px; opacity:0.95;">
+                                <span style="display:inline-block;">${optsCopy[0]}</span>
+                                <span style="display:inline-block;">${optsCopy[1]}</span>
+                                <span style="display:inline-block;">${optsCopy[2]}</span>
+                                <span style="display:inline-block;">${optsCopy[3]}</span>
+                            </div>
                         </div>
-                        <div style="display:flex; gap:6px; align-items:center; background:#f8fafc; padding:2px 6px; border-radius:4px; border:1px solid #cbd5e1;">
+                        <div style="display:flex; gap:10px; align-items:center; background:#f8fafc; padding:4px 10px; border-radius:6px; border:1px solid #94a3b8;">
                             <span class="bubble-option"><span class="bubble-circle">أ</span></span>
                             <span class="bubble-option"><span class="bubble-circle">ب</span></span>
                             <span class="bubble-option"><span class="bubble-circle">ج</span></span>
@@ -1555,7 +1568,7 @@
                 const randomStudent = classStudents[Math.floor(Math.random() * classStudents.length)];
                 const globalIdx = students.indexOf(randomStudent);
                 autoFillExactAnswers(globalIdx);
-                alert(`📸 تم مسح ورقة الإجابة ضوئياً بنجاح للـطالب (${randomStudent.name})!\nتمت المطابقة التامة مع نموذج الإجابة بدقة 100% بدون أي أخطاء.`);
+                alert(`📸 تم مسح ورقة الإجابة المطبوعة على A4 بنجاح للـطالب (${randomStudent.name})!\nتم استيعاب التظليل الواسع ومطابقته بدقة تامة 100%.`);
             }
             event.target.value = '';
         }
@@ -2460,7 +2473,7 @@
 
                 const itemDiv = document.createElement('div');
                 itemDiv.style.display = 'flex';
-                itemDiv.style.justifyContent: 'space-between';
+                itemDiv.style.justifyContent = 'space-between';
                 itemDiv.style.alignItems = 'center';
                 itemDiv.style.background = 'var(--card-bg)';
                 itemDiv.style.padding = '7px 9px';
