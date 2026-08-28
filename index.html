@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>المعلم منصور عامر الرحيلي - مدرسة داوود بن عروة الثقفي الابتدائية</title>
+    <!-- ربط ملف الـ manifest لتفعيل ميزة التثبيت كـ PWA -->
+    <link rel="manifest" href="manifest.json">
     <!-- مكتبة SheetJS لتصدير واستيراد ملفات إكسل Excel -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
@@ -737,29 +739,17 @@
             </div>
         </div>
 
-        <!-- 📑 قسم الاختبارات (مع دوائر التضليل الدقيقة للقراءة الآلية في ورقة واحدة) -->
+        <!-- نموذج أسئلة الاختبار (بدوائر التضليل للقراءة الآلية - ورقة واحدة) -->
         <div class="section-card" id="testGeneratorSection">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 مولد اختبارات القياس (بدوائر التضليل للقراءة الآلية - ورقة واحدة)</h3>
+                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 نموذج أسئلة الاختبار (بدوائر التضليل للقراءة الآلية - ورقة واحدة)</h3>
                 <button class="btn-print" onclick="printSection('testGeneratorSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الاختبار (ورقة واحدة)</button>
             </div>
 
-            <div class="form-row no-print">
-                <select id="genTestCategory" class="border p-2 rounded" onchange="updateTestTemplateDropdowns()">
-                    <option value="قبلي">🧪 اختبار قبلي تشخيصي مبسط</option>
-                    <option value="بعدي">🎯 اختبار بعدي تحصيلي مبسط</option>
-                    <option value="فتروي">📊 اختبار فتروي معتمد (10 نماذج منوعة)</option>
-                </select>
-                <select id="genTestModelSelect" class="border p-2 rounded">
-                    <!-- يتم تعبئة النماذج ديناميكياً -->
-                </select>
-                <button onclick="generateSpecificModelTest()" class="btn-info" style="width: 100%;">⚡ توليد ونشر النموذج المختار (10 أسئلة)</button>
-            </div>
-
-            <div id="testPreviewArea" class="sub-box" style="display: none; background: #ffffff; border: 2px solid var(--secondary); padding: 8px;">
+            <div id="testPreviewArea" class="sub-box" style="display: block; background: #ffffff; border: 2px solid var(--secondary); padding: 8px;">
                 <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 6px;">
-                    <h4 id="printTestHeaderTitle" style="margin: 0; color: #000; font-size: 14px;">نموذج اختبار</h4>
-                    <p style="font-size: 10px; margin: 2px 0; color: #000;">مدرسة داوود بن عروة الثقفي الابتدائية (طلاب) | معلم المادة: منصور عامر الرحيلي | الصف: <span id="printTestGrade"></span></p>
+                    <h4 id="printTestHeaderTitle" style="margin: 0; color: #000; font-size: 14px;">اختبار مادة العلوم التقييمي الشامل</h4>
+                    <p style="font-size: 10px; margin: 2px 0; color: #000;">مدرسة داوود بن عروة الثقفي الابتدائية (طلاب) | معلم المادة: منصور عامر الرحيلي | الصف: <span id="printTestGrade">الأول الابتدائي</span></p>
                     <div style="display: flex; justify-content: space-between; font-size: 10px; margin-top: 4px; color: #000;">
                         <span>اسم الطالب: ....................................................</span>
                         <span>الدرجة: ........ / ١٠</span>
@@ -1152,6 +1142,13 @@
     <div id="toast" class="toast">✅ تم حفظ البيانات تلقائياً!</div>
 
     <script>
+        // تسجيل الـ Service Worker لتمكين تثبيت التطبيق بشكل كامل عبر manifest.json
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed: ', err));
+            });
+        }
+
         const TEACHER_NAME = "منصور عامر الرحيلي";
         const SCHOOL_NAME = "مدرسة داوود بن عروة الثقفي الابتدائية (طلاب)";
 
@@ -1277,47 +1274,14 @@
 
             renderLessons();
             renderMasteryDropdowns();
-            updateTestTemplateDropdowns();
+            renderDefaultTestPreview();
             renderClassesQuery();
             render();
             showToast(`🔄 تم الانتقال إلى بيانات ${currentGrade}`);
         }
 
-        function updateTestTemplateDropdowns() {
-            const category = document.getElementById('genTestCategory').value;
-            const modelSelect = document.getElementById('genTestModelSelect');
-            modelSelect.innerHTML = '';
-
-            let labelPrefix = "النموذج";
-            let totalModels = 4;
-            if(category === 'قبلي') { labelPrefix = "الاختبار القبلي التشخيصي (نموذج"; totalModels = 4; }
-            if(category === 'بعدي') { labelPrefix = "الاختبار البعدي التحصيلي (نموذج"; totalModels = 4; }
-            if(category === 'فتروي') { labelPrefix = "الاختبار الفتروي المعتمد (نموذج"; totalModels = 10; }
-
-            for(let i=1; i<=totalModels; i++) {
-                modelSelect.innerHTML += `<option value="${category}_${i}">${labelPrefix} ${i} - 10 أسئلة مبسطة ومنوعة)</option>`;
-            }
-            updateAnswerKeyInputs();
-        }
-
-        function generateSpecificModelTest() {
-            const category = document.getElementById('genTestCategory').value;
-            const modelVal = document.getElementById('genTestModelSelect').value;
-            const parts = modelVal.split('_');
-            const cat = parts[0];
-            const modelNum = parts[1];
-
-            const previewArea = document.getElementById('testPreviewArea');
-            previewArea.style.display = 'block';
-
-            let titleText = "";
-            if(cat === 'قبلي') titleText = `اختبار قبلي تشخيصي مبسط - النموذج (${modelNum})`;
-            else if(cat === 'بعدي') titleText = `اختبار بعدي تحصيلي مبسط - النموذج (${modelNum})`;
-            else titleText = `اختبار فتروي معتمد - النموذج (${modelNum}) من 10 نماذج منوعة`;
-
-            document.getElementById('printTestHeaderTitle').textContent = titleText;
+        function renderDefaultTestPreview() {
             document.getElementById('printTestGrade').textContent = currentGrade;
-
             const listContainer = document.getElementById('printTestQuestionsList');
             let qHTML = `<div style="margin-bottom: 4px; font-weight: bold; background: rgba(0,0,0,0.035); padding: 4px; font-size:10px;">مستهدف التقييم: ${currentGrade} - 10 أسئلة مع دوائر تضليل للقراءة الآلية</div>`;
 
@@ -1385,7 +1349,6 @@
             });
 
             listContainer.innerHTML = qHTML;
-            showToast(`⚡ تم توليد وعرض (${titleText}) مع دوائر التضليل بنجاح!`);
         }
 
         // دوال التصحيح الآلي (10 أسئلة)
@@ -1591,7 +1554,7 @@
 
             document.getElementById('totalExecutedLessons').textContent = `${executedCount} / ${lessons.length}`;
             renderMasteryDropdowns();
-            updateTestTemplateDropdowns();
+            renderDefaultTestPreview();
         }
 
         function renderMasteryDropdowns() {
@@ -2466,7 +2429,7 @@
 
         window.onload = function() {
             renderLessons();
-            updateTestTemplateDropdowns();
+            renderDefaultTestPreview();
             render();
             checkBackupReminder();
         };
