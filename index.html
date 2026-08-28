@@ -605,11 +605,32 @@
         .float-whatsapp { background: #25D366; }
         .float-top { background: var(--primary); display: none; }
 
+        /* تنسيق دوائر التضليل (Bubble Sheet Circles) */
+        .bubble-option {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 10px;
+            font-size: 11px;
+        }
+        .bubble-circle {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 9px;
+            font-size: 8px;
+            font-weight: bold;
+            background: #fff;
+        }
+
         /* تنسيق مخصص لطباعة الاختبار في ورقة واحدة A4 بشكل أنيق ومنظم */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 8mm;
+                margin: 6mm;
             }
             body * { visibility: hidden !important; }
             .printing-section, .printing-section * {
@@ -626,17 +647,16 @@
                 background: #ffffff !important;
                 box-shadow: none !important;
                 margin: 0 !important;
-                padding: 4px !important;
+                padding: 2px !important;
             }
             .no-print, button, select, textarea, .pagination-bar, .backup-controls, .form-row, .classes-query-grid, .floating-action-buttons, .top-banner {
                 display: none !important;
             }
-            /* تقليص الهوامش وحجم خطوط الأسئلة لضمان احتواء ورقة واحدة بالكامل */
             #printTestQuestionsList > div {
-                margin-bottom: 4px !important;
-                padding: 3px 5px !important;
-                font-size: 10px !important;
-                line-height: 1.25 !important;
+                margin-bottom: 3px !important;
+                padding: 2px 4px !important;
+                font-size: 9.5px !important;
+                line-height: 1.15 !important;
                 border-right: 2px solid #000 !important;
             }
         }
@@ -717,10 +737,10 @@
             </div>
         </div>
 
-        <!-- 📑 قسم الاختبارات (أسئلة قياس مبسطة ومنوعة ومناسبة للمرحلة الابتدائية في ورقة واحدة) -->
+        <!-- 📑 قسم الاختبارات (مع دوائر التضليل الدقيقة للقراءة الآلية في ورقة واحدة) -->
         <div class="section-card" id="testGeneratorSection">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 مولد اختبارات القياس (10 أسئلة مبسطة في ورقة واحدة)</h3>
+                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 مولد اختبارات القياس (بدوائر التضليل للقراءة الآلية - ورقة واحدة)</h3>
                 <button class="btn-print" onclick="printSection('testGeneratorSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الاختبار (ورقة واحدة)</button>
             </div>
 
@@ -745,8 +765,8 @@
                         <span>الدرجة: ........ / ١٠</span>
                     </div>
                 </div>
-                <div id="printTestQuestionsList" style="font-size: 11px; color: #000; line-height: 1.35;">
-                    <!-- تفاصيل 10 أسئلة الاختيار من متعدد -->
+                <div id="printTestQuestionsList" style="font-size: 11px; color: #000; line-height: 1.3;">
+                    <!-- تفاصيل 10 أسئلة الاختيار من متعدد مع دوائر التضليل -->
                 </div>
             </div>
         </div>
@@ -1299,7 +1319,7 @@
             document.getElementById('printTestGrade').textContent = currentGrade;
 
             const listContainer = document.getElementById('printTestQuestionsList');
-            let qHTML = `<div style="margin-bottom: 4px; font-weight: bold; background: rgba(0,0,0,0.035); padding: 4px; font-size:10px;">مستهدف التقييم: ${currentGrade} - 10 أسئلة مبسطة ومنسقة لورقة واحدة</div>`;
+            let qHTML = `<div style="margin-bottom: 4px; font-weight: bold; background: rgba(0,0,0,0.035); padding: 4px; font-size:10px;">مستهدف التقييم: ${currentGrade} - 10 أسئلة مع دوائر تضليل للقراءة الآلية</div>`;
 
             const simplifiedQuestionsBank = [
                 {
@@ -1346,18 +1366,26 @@
 
             simplifiedQuestionsBank.forEach((item, idx) => {
                 qHTML += `
-                    <div style="margin-bottom: 5px; padding: 4px 6px; background: rgba(0,0,0,0.015); border-radius: 3px; border-right: 2px solid var(--secondary);">
-                        <strong>${item.q}</strong><br>
-                        <span style="display:inline-block; margin-left:12px;">${item.opts[0]}</span>
-                        <span style="display:inline-block; margin-left:12px;">${item.opts[1]}</span>
-                        <span style="display:inline-block; margin-left:12px;">${item.opts[2]}</span>
-                        <span style="display:inline-block;">${item.opts[3]}</span>
+                    <div style="margin-bottom: 5px; padding: 3px 5px; background: rgba(0,0,0,0.015); border-radius: 3px; border-right: 2px solid var(--secondary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                        <div style="flex: 1; min-width: 70%;">
+                            <strong>${item.q}</strong><br>
+                            <span style="font-size:10px; opacity:0.9; display:inline-block; margin-left:8px;">${item.opts[0]}</span>
+                            <span style="font-size:10px; opacity:0.9; display:inline-block; margin-left:8px;">${item.opts[1]}</span>
+                            <span style="font-size:10px; opacity:0.9; display:inline-block; margin-left:8px;">${item.opts[2]}</span>
+                            <span style="font-size:10px; opacity:0.9; display:inline-block;">${item.opts[3]}</span>
+                        </div>
+                        <div style="display:flex; gap:6px; align-items:center; background:#f8fafc; padding:2px 6px; border-radius:4px; border:1px solid #cbd5e1;">
+                            <span class="bubble-option"><span class="bubble-circle">أ</span></span>
+                            <span class="bubble-option"><span class="bubble-circle">ب</span></span>
+                            <span class="bubble-option"><span class="bubble-circle">ج</span></span>
+                            <span class="bubble-option"><span class="bubble-circle">د</span></span>
+                        </div>
                     </div>
                 `;
             });
 
             listContainer.innerHTML = qHTML;
-            showToast(`⚡ تم توليد وعرض (${titleText}) في ورقة واحدة بنجاح!`);
+            showToast(`⚡ تم توليد وعرض (${titleText}) مع دوائر التضليل بنجاح!`);
         }
 
         // دوال التصحيح الآلي (10 أسئلة)
