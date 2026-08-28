@@ -642,7 +642,7 @@
 <body class="theme-default">
 
     <div class="top-banner">
-        ﴿ هذا الجهد استغرق وقتاً وعناية، ولا أحلل نقله تجارياً أو نسخ دون إذن ﴾<br>
+        ﴿ هذا الجهد استغرق وقتاً وعناية، ولا أحلل نقله تجارياً أو نسخه دون إذن ﴾<br>
         للتواصل والاتصال عبر واتساب: <a href="https://wa.me/966581015002" target="_blank" style="color: #ffff00; text-decoration: underline;">0581015002</a>
     </div>
 
@@ -663,14 +663,6 @@
     </div>
 
     <div class="container">
-        <!-- زر التثبيت الذكي على سطح المكتب / الجوال -->
-        <div class="section-card no-print" style="text-align: center; background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(30,58,138,0.15)); border: 2px dashed var(--secondary);">
-            <button id="installAppBtn" class="btn-success" style="display: none; background: var(--secondary); color: white; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 14px;">
-                💻 تثبيت الداشبورد كبرنامج مستقل على سطح المكتب / الجوال (Install App)
-            </button>
-            <div id="installHintMsg" style="font-size: 12px; opacity: 0.85;">📱 لتثبيت التطبيق على جهازك، انقر على زر القائمة (ثلاث نقاط) في متصفحك واختار (إضافة إلى الشاشة الرئيسية) أو (تثبيت التطبيق).</div>
-        </div>
-
         <!-- اختيار الصف الدراسي -->
         <div class="section-card no-print" style="background: linear-gradient(135deg, rgba(37,99,235,0.05), rgba(30,58,138,0.1)); border: 2px solid var(--secondary);">
             <h3 style="margin-bottom: 6px;">📌 اختر الصف الدراسي للمتابعة</h3>
@@ -722,23 +714,23 @@
             </div>
         </div>
 
-        <!-- 📑 قسم الاختبارات (4 قبلية، 4 بعدية، 10 نماذج فترية - 10 أسئلة لكل نموذج اختيار من متعدد) -->
+        <!-- 📑 قسم الاختبارات (أسئلة قياس مبسطة ومنوعة ومناسبة للمرحلة الابتدائية) -->
         <div class="section-card" id="testGeneratorSection">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 مولد اختبارات القياس (4 قبلية | 4 بعدية | 10 فترية - 10 أسئلة اختيار من متعدد)</h3>
+                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 مولد اختبارات القياس المبسطة (10 أسئلة منوعة ومدروسة)</h3>
                 <button class="btn-print" onclick="printSection('testGeneratorSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الاختبار</button>
             </div>
 
             <div class="form-row no-print">
                 <select id="genTestCategory" class="border p-2 rounded" onchange="updateTestTemplateDropdowns()">
-                    <option value="قبلي">🧪 اختبار قبلي تشخيصي</option>
-                    <option value="بعدي">🎯 اختبار بعدي تحصيلي</option>
-                    <option value="فتروي">📊 اختبار فتروي معتمد (10 نماذج)</option>
+                    <option value="قبلي">🧪 اختبار قبلي تشخيصي مبسط</option>
+                    <option value="بعدي">🎯 اختبار بعدي تحصيلي مبسط</option>
+                    <option value="فتروي">📊 اختبار فتروي معتمد (10 نماذج منوعة)</option>
                 </select>
                 <select id="genTestModelSelect" class="border p-2 rounded">
                     <!-- يتم تعبئة النماذج ديناميكياً -->
                 </select>
-                <button onclick="generateSpecificModelTest()" class="btn-info" style="width: 100%;">⚡ توليد ونشر النموذج المختار (10 أسئلة)</button>
+                <button onclick="generateSpecificModelTest()" class="btn-info" style="width: 100%;">⚡ توليد ونشر النموذج المختار (10 أسئلة واضحة)</button>
             </div>
 
             <div id="testPreviewArea" class="sub-box" style="display: none; background: #ffffff; border: 2px solid var(--secondary);">
@@ -798,7 +790,7 @@
                         <strong id="statAvgScore">0</strong>
                     </div>
                     <div class="detail-item">
-                        <span>عدد الطلاب الماجتازين</span>
+                        <span>عدد الطلاب المجتازين</span>
                         <strong id="statPassedCount" style="color: var(--success);">0</strong>
                     </div>
                     <div class="detail-item">
@@ -1137,30 +1129,6 @@
     <div id="toast" class="toast">✅ تم حفظ البيانات تلقائياً!</div>
 
     <script>
-        // زر التثبيت الذكي PWA Prompt
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const btn = document.getElementById('installAppBtn');
-            const hint = document.getElementById('installHintMsg');
-            if(btn) {
-                btn.style.display = 'block';
-                if(hint) hint.style.display = 'none';
-            }
-        });
-
-        document.getElementById('installAppBtn').addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                showToast('🎉 تم قبول التثبيت بنجاح!');
-            }
-            deferredPrompt = null;
-            document.getElementById('installAppBtn').style.display = 'none';
-        });
-
         const TEACHER_NAME = "منصور عامر الرحيلي";
         const SCHOOL_NAME = "مدرسة داوود بن عروة الثقفي الابتدائية (طلاب)";
 
@@ -1304,7 +1272,7 @@
             if(category === 'فتروي') { labelPrefix = "الاختبار الفتروي المعتمد (نموذج"; totalModels = 10; }
 
             for(let i=1; i<=totalModels; i++) {
-                modelSelect.innerHTML += `<option value="${category}_${i}">${labelPrefix} ${i} - 10 أسئلة اختيار من متعدد)</option>`;
+                modelSelect.innerHTML += `<option value="${category}_${i}">${labelPrefix} ${i} - 10 أسئلة مبسطة ومنوعة)</option>`;
             }
             updateAnswerKeyInputs();
         }
@@ -1320,61 +1288,60 @@
             previewArea.style.display = 'block';
 
             let titleText = "";
-            if(cat === 'قبلي') titleText = `اختبار قبلي تشخيصي - النموذج (${modelNum})`;
-            else if(cat === 'بعدي') titleText = `اختبار بعدي تحصيلي - النموذج (${modelNum})`;
-            else titleText = `اختبار فتروي معتمد - النموذج (${modelNum}) من 10 نماذج`;
+            if(cat === 'قبلي') titleText = `اختبار قبلي تشخيصي مبسط - النموذج (${modelNum})`;
+            else if(cat === 'بعدي') titleText = `اختبار بعدي تحصيلي مبسط - النموذج (${modelNum})`;
+            else titleText = `اختبار فتروي معتمد - النموذج (${modelNum}) من 10 نماذج منوعة`;
 
             document.getElementById('printTestHeaderTitle').textContent = titleText;
             document.getElementById('printTestGrade').textContent = currentGrade;
 
             const listContainer = document.getElementById('printTestQuestionsList');
-            let qHTML = `<div style="margin-bottom: 8px; font-weight: bold; background: rgba(0,0,0,0.035); padding: 6px;">مستهدف التقييم: ${currentGrade} - 10 أسئلة اختيار من متعدد للتصحيح الآلي</div>`;
+            let qHTML = `<div style="margin-bottom: 8px; font-weight: bold; background: rgba(0,0,0,0.035); padding: 6px;">مستهدف التقييم: ${currentGrade} - 10 أسئلة مبسطة تناسب مستوى الطلاب ومستواهم العمري</div>`;
 
-            // 10 أسئلة اختيار من متعدد بالكامل لكل نموذج
-            const mcq10Questions = [
+            const simplifiedQuestionsBank = [
                 {
-                    q: `السؤال 1: ما هو المفهوم العلمي الأبرز في وحدات مقرر العلوم للصف (${currentGrade}) - نموذج (${modelNum})؟`,
-                    opts: ["أ) الخيار العلمي الصحيح والمعتمد للمنهج.", "ب) الخيار التشتيتي الأول غير الصحيح.", "ج) الخيار التشتيتي الثاني غير الدقيق.", "د) الخيار التشتيتي الثالث."]
+                    q: "السؤال 1: أي مما يلي يعتبر من الحاجات الأساسية للمخلوقات الحية لكي تعيش؟",
+                    opts: ["أ) الماء والهواء والغذاء", "ب) الألعاب الإلكترونية", "ج) السيارات السريعة", "د) الهواتف الذكية"]
                 },
                 {
-                    q: `السؤال 2: كيف تتفاعل الكائنات الحية أو المواد في بيئتها وفقاً للتجارب الاستهلالية؟`,
-                    opts: ["أ) تتكيف وتستجيب خصائصها وفق المتغيرات.", "ب) تنعدم استجابتها بصورة تامة.", "ج) تتحول عشوائياً بدون مؤثرات.", "د) تظل ثابتة لا تتغير أبداً."]
+                    q: "السؤال 2: أي جزء من النبات يمتص الماء والأملاح المعدنية من التربة؟",
+                    opts: ["أ) الأوراق", "ب) الجذور", "ج) الأزهار", "د) الثمار"]
                 },
                 {
-                    q: `السؤال 3: أي مما يلي يمثل خاصية أساسية تم دراستها في المنهج الحالي؟`,
-                    opts: ["أ) الملاحظة الدقيقة والاستنتاج العلمي السليم.", "ب) الإهمال والتخمين العشوائي.", "ج) تجنب إجراء التجارب العملية.", "د) إلغاء دور الملاحظة في العلوم."]
+                    q: "السؤال 3: ما هي الحالة التي تكون عليها المياه داخل جدول الماء أو البحر؟",
+                    opts: ["أ) حالة صلبة", "ب) حالة غازية", "ج) حالة سائلة", "د) حالة جامدة جداً"]
                 },
                 {
-                    q: `السؤال 4: عند قياس أو تصنيف الأجسام والمخلوقات في المقرر، نعتمد على:`,
-                    opts: ["أ) الخصائص الفيزيائية والحيوية المدروسة.", "ب) الألوان والزخارف فقط.", "ج) الأحلام والتوقعات الوهمية.", "د) البيانات غير المنظمة."]
+                    q: "السؤال 4: كيف تنتقل الأجسام أو تلعب بالكرة بدفعها أو سحبها؟",
+                    opts: ["أ) باستخدام القوة", "ب) باستخدام الصوت", "ج) باستخدام الظل", "د) باستخدام الضوء"]
                 },
                 {
-                    q: `السؤال 5: الهدف الأساسي من التقويم والاختبارات التكوينية في مادة العلوم هو:`,
-                    opts: ["أ) قياس الإتقان وتحسين الفهم واستكشاف المهارات.", "ب) حفظ الكلمات دون فهم المعنى.", "ج) إثقال مهارات الحفظ فقط.", "د) تشتيت الانتباه الدراسي."]
+                    q: "السؤال 5: أي من الحواس الخمس تستخدم لمعرفة ألوان الأجسام والزهور؟",
+                    opts: ["أ) حاسة السمع", "ب) حاسة البصر", "ج) حاسة الشم", "د) حاسة اللمس"]
                 },
                 {
-                    q: `السؤال 6: ما هي النتيجة المتوقعة عند تطبيق المفاهيم العلمية بداخل المعمل أو الفصل؟`,
-                    opts: ["أ) ترسيخ الفهم واستنتاج الحقائق بدقة.", "ب) إضاعة الوقت بلا فائدة علمية.", "ج) غموض المعلومات ونسيانها.", "د) صعوبة استيعاب البيئة المحيطة."]
+                    q: "السؤال 6: ما هو المصدر الطبيعي الرئيسي للضوء والدفء على كوكب الأرض؟",
+                    opts: ["أ) القمر", "ب) النجوم البعيدة", "ج) الشمس", "د) المصباح اليدوي"]
                 },
                 {
-                    q: `السؤال 7: التصنيف السليم للمخلوقات الحية والعناصر في مقرر العلوم يعتمد على:`,
-                    opts: ["أ) الخصائص المشتركة والفروق الدقيقة.", "ب) الأشكال العشوائية البحتة.", "ج) الاختيار دون معايير واضحة.", "د) التخمين غير المبرر."]
+                    q: "السؤال 7: ماذا يسمى الغلاف الجوي المحيط بكوكب الأرض ويتكون من غازات نتنفسها؟",
+                    opts: ["أ) الماء", "ب) الهواء", "ج) الصخور", "د) الرمل"]
                 },
                 {
-                    q: `السؤال 8: أي من الأدوات التالية تعتبر الأنسب لملاحظة التفاصيل الدقيقة للكائنات أو المواد؟`,
-                    opts: ["أ) العدسة المكبرة والمجهر والأجهزة العلمية.", "ب) الورق العادي دون وسائل فحص.", "ج) الأدوات الترفيهية البعيدة عن العلم.", "د) الوسائل غير المختبرية."]
+                    q: "السؤال 8: أي من الحيوانات التالية تستطيع العيش في الماء وتتفسر بواسطة الغلاصم؟",
+                    opts: ["أ) العصفور", "ب) الأسماك", "ج) الجمل", "د) القط"]
                 },
                 {
-                    q: `السؤال 9: العلاقة المتبادلة بين الكائنات الحية وعناصر بيئتها تهدف أساساً إلى:`,
-                    opts: ["أ) ضمان البقاء والتكيف واستمرار الحياة.", "ب) إحداث خلل مستمر في البيئة.", "ج) القضاء على الموارد الطبيعية.", "د) عزل الكائنات عن محيطها."]
+                    q: "السؤال 9: عندما ننظر إلى السماء في فصل الصيف، كيف يكون حالة الطقس الغالبة؟",
+                    opts: ["أ) مشمس وحار", "ب) ثلجي وبارد جداً", "ج) ممطر بغزارة طوال العام", "د) عواصف ثلجية"]
                 },
                 {
-                    q: `السؤال 10: التقييم الختامي الشامل لدروس الوحدة يساعد المعلم والطالب على:`,
-                    opts: ["أ) قياس مستوى تحقيق نواتج التعلم بدقة.", "ب) تخطي المنهج دون اهتمام.", "ج) إلغاء المراجعة والاستذكار.", "د) إغفال المهارات العملية."]
+                    q: "السؤال 10: ما هي أهمية غسل اليدين بالماء والصابون بانتظام؟",
+                    opts: ["أ) لتجنب الأوساخ والأمراض وحماية الجسم", "ب) لإضاعة الوقت فقط", "ج) لتلوين الأصابع", "د) لجعل اليدين باردة"]
                 }
             ];
 
-            mcq10Questions.forEach((item, idx) => {
+            simplifiedQuestionsBank.forEach((item, idx) => {
                 qHTML += `
                     <div style="margin-bottom: 10px; padding: 7px; background: rgba(0,0,0,0.02); border-radius: 4px; border-right: 3px solid var(--secondary);">
                         <strong>${item.q}</strong><br>
@@ -1389,11 +1356,11 @@
             });
 
             listContainer.innerHTML = qHTML;
-            showToast(`⚡ تم توليد وعرض (${titleText}) بـ 10 أسئلة بنجاح!`);
+            showToast(`⚡ تم توليد وعرض (${titleText}) بأسئلة مبسطة بنجاح!`);
         }
 
         // دوال التصحيح الآلي (10 أسئلة)
-        let answerKey = ['أ', 'ب', 'ج', 'أ', 'ب', 'أ', 'أ', 'أ', 'أ', 'أ'];
+        let answerKey = ['أ', 'ب', 'ج', 'أ', 'ب', 'ج', 'ب', 'ب', 'أ', 'أ'];
 
         function updateAnswerKeyInputs() {
             const totalQ = 10;
@@ -1894,7 +1861,7 @@
         function updateExamClassSelect(classesSet) {
             const select = document.getElementById('examClassSelect');
             const currentVal = select.value;
-            select.innerHTML = '<option value="">-- اختر الصف لعرض وسجل الاختبارات --</option>';
+            select.innerHTML = '<option value="">-- اختر الصف لعرض سجل الاختبارات --</option>';
             classesSet.forEach(cName => {
                 select.innerHTML += `<option value="${cName}">${cName}</option>`;
             });
