@@ -2,17 +2,23 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المعلم منصور عامر الرحيلي - مدرسة داوود بن عروة الثقفي الابتدائية</title>
-    <!-- ربط ملف الـ manifest لتفعيل ميزة التثبيت كـ PWA -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>المعلم منصور عامر الرحيلي- مدرسة داوود بن عروة الثقفي(لوحة تحكم مادة العلوم)</title>
+    
+    <!-- ربط ملف manifest.json والمظهر الخاص بالجوال -->
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon.png">
+
     <!-- مكتبة SheetJS لتصدير واستيراد ملفات إكسل Excel -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         :root {
             --primary: #1e3a8a;
             --secondary: #2563eb;
-            --accent: #dbeafe;
+            --accent: #bfdbfe;
             --bg: #eff6ff;
             --card-bg: #ffffff;
             --text: #1e3a8a;
@@ -24,16 +30,16 @@
         }
 
         body.theme-default { 
-            --bg: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); 
+            --bg: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); 
             --card-bg: #ffffff; 
             --text: #1e3a8a; 
         }
         body.theme-royal { 
-            --bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); 
-            --card-bg: #3730a3; 
-            --text: #e0e7ff; 
-            --secondary: #6366f1;
-            --primary: #4338ca;
+            --bg: linear-gradient(135deg, #3b0764 0%, #581c87 100%); 
+            --card-bg: #4c1d95; 
+            --text: #f3e8ff; 
+            --secondary: #a855f7;
+            --primary: #6b21a8;
         }
         body.theme-emerald { 
             --bg: linear-gradient(135deg, #064e3b 0%, #065f46 100%); 
@@ -50,11 +56,15 @@
             --primary: #b45309;
         }
         body.theme-blue { 
-            --bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
+            --bg: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); 
             --card-bg: #ffffff; 
-            --text: #0f172a; 
-            --secondary: #0284c7;
-            --primary: #0369a1;
+            --text: #1e3a8a; 
+            --secondary: #2563eb;
+            --primary: #1d4ed8;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
@@ -63,14 +73,12 @@
             background-attachment: fixed;
             color: var(--text);
             margin: 0;
-            padding: 8px;
+            padding: 10px;
             transition: background 0.3s ease, color 0.3s ease;
             user-select: none;
             min-height: 100vh;
-            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        * { box-sizing: border-box; }
 
         .top-banner {
             text-align: center;
@@ -78,34 +86,37 @@
             color: white;
             padding: 10px;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: bold;
             margin-bottom: 12px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             line-height: 1.6;
+            width: 100%;
         }
 
         .header {
             text-align: center;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 12px;
+            padding: 15px 10px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            width: 100%;
         }
 
-        .header h1 { margin: 0 0 6px 0; font-size: 18px; }
-        .header div { font-size: 14px; opacity: 0.9; }
-        .header p { margin: 4px 0 0 0; font-size: 12px; opacity: 0.8; }
+        .header h1 { margin: 0 0 6px 0; font-size: 20px; }
+        .header div { font-size: 15px; opacity: 0.9; }
+        .header p { margin: 5px 0 0 0; font-size: 12px; opacity: 0.8; }
 
         .subscription-badge {
-            display: inline-block;
+            display: block;
+            width: fit-content;
+            margin: 8px auto 0 auto;
             background: rgba(255, 255, 255, 0.25);
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 20px;
-            font-size: 11px;
-            margin-top: 6px;
+            font-size: 12px;
             border: 1px solid rgba(255, 255, 255, 0.4);
             font-weight: bold;
         }
@@ -117,19 +128,18 @@
             margin-top: 10px;
             align-items: center;
             background: rgba(255, 255, 255, 0.2);
-            padding: 5px 10px;
+            padding: 6px 10px;
             border-radius: 20px;
             width: fit-content;
             margin-left: auto;
             margin-right: auto;
-            flex-wrap: wrap;
         }
 
         .theme-btn {
             border: 2px solid white;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
             padding: 0;
             transition: transform 0.2s;
@@ -140,91 +150,93 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .theme-btn:hover { transform: scale(1.2); }
+        .theme-btn:hover { transform: scale(1.15); }
 
-        .container { max-width: 1200px; margin: 0 auto; width: 100%; }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
+        .container { 
+            width: 100%; 
+            max-width: 100%; 
+            margin: 0 auto; 
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        @media (min-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+        /* جعل الإحصائيات تترتب بشكل عمودي للجوال فوق بعضها */
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 5px;
         }
 
         .stat-card {
             background: var(--card-bg);
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
             border-bottom: 3px solid var(--secondary);
+            width: 100%;
         }
 
-        .stat-card h3 { margin: 0; font-size: 10px; opacity: 0.8; }
-        .stat-card p { margin: 6px 0 0 0; font-size: 16px; font-weight: bold; color: var(--secondary); }
+        .stat-card h3 { margin: 0; font-size: 13px; opacity: 0.85; }
+        .stat-card p { margin: 4px 0 0 0; font-size: 18px; font-weight: bold; color: var(--secondary); }
 
         .section-card {
             background: var(--card-bg);
             padding: 12px;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
-            overflow-x: hidden;
+            width: 100%;
+            margin-bottom: 0;
         }
 
         .section-card h3 {
             margin-top: 0;
             color: var(--secondary);
             border-bottom: 2px solid rgba(0,0,0,0.1);
-            padding-bottom: 6px;
+            padding-bottom: 8px;
             font-size: 15px;
+            word-wrap: break-word;
         }
 
+        /* تنسيق جميع النماذج والحقول لتصبح فوق بعضها عمودياً (100%) */
         .form-row {
             display: flex;
-            gap: 6px;
+            flex-direction: column;
+            gap: 8px;
             margin-bottom: 10px;
-            flex-wrap: wrap;
+            width: 100%;
         }
 
-        .form-row input, .form-row select, .form-row textarea {
-            flex: 1;
-            min-width: 100%;
-            padding: 9px;
+        .form-row input, 
+        .form-row select, 
+        .form-row textarea {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 100% !important;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 14px;
             background-color: var(--card-bg);
             color: var(--text);
-        }
-
-        @media (min-width: 600px) {
-            .form-row input, .form-row select, .form-row textarea { min-width: 140px; }
         }
 
         button {
             background: var(--secondary);
             color: white;
             border: none;
-            padding: 9px 12px;
+            padding: 12px 15px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
             transition: 0.2s;
-            font-size: 13px;
-            width: 100%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        @media (min-width: 600px) {
-            button { width: auto; }
+            font-size: 14px;
+            width: 100% !important;
+            display: block;
+            text-align: center;
         }
 
         button:hover { opacity: 0.9; }
@@ -234,38 +246,36 @@
         .btn-excel { background: var(--excel); }
         .btn-success { background: var(--success); }
         .btn-print { background: #4b5563; }
-        .btn-action { padding: 4px 6px; font-size: 11px; margin: 0 1px; width: auto !important; }
+        .btn-action { padding: 6px 10px; font-size: 12px; margin: 2px 0; width: 100% !important; }
 
         .classes-query-grid {
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+            flex-direction: column;
+            gap: 8px;
             margin: 10px 0;
-            align-items: center;
+            width: 100%;
         }
 
         .class-btn-wrapper {
-            display: inline-flex;
-            align-items: stretch;
-            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
             overflow: hidden;
             border: 2px solid var(--secondary);
             background: rgba(0, 0, 0, 0.04);
-            flex: 1;
-            min-width: 120px;
+            width: 100%;
         }
 
         .class-query-btn {
             background: transparent;
             border: none;
             color: var(--text);
-            padding: 7px 8px;
+            padding: 10px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 13px;
             flex: 1;
             text-align: right;
-            width: auto;
         }
 
         .class-btn-wrapper.active {
@@ -279,158 +289,151 @@
             background: rgba(239, 68, 68, 0.15);
             border: none;
             color: var(--danger);
-            padding: 0 8px;
+            padding: 10px 14px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: auto !important;
         }
 
-        .class-delete-btn:hover { background: var(--danger); color: white; }
-
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-top: 8px;
+        .class-delete-btn:hover {
+            background: var(--danger);
+            color: white;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 4px;
-            min-width: 480px;
+            margin-top: 10px;
+            font-size: 12px;
         }
 
         th, td {
             border: 1px solid rgba(0,0,0,0.1);
-            padding: 7px;
+            padding: 8px 4px;
             text-align: center;
-            font-size: 12px;
         }
 
         th { background-color: rgba(0,0,0,0.05); color: var(--secondary); }
 
         .pagination-bar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 8px;
             margin-top: 10px;
-            padding: 6px;
+            padding: 8px;
             background: rgba(0,0,0,0.03);
-            border-radius: 6px;
-            flex-wrap: wrap;
-            gap: 6px;
+            border-radius: 8px;
+            width: 100%;
         }
 
         .pagination-btns {
             display: flex;
-            gap: 4px;
+            gap: 5px;
             align-items: center;
             width: 100%;
-            justify-content: center;
+            justify-content: space-between;
         }
 
-        @media (min-width: 600px) {
-            .pagination-btns { width: auto; }
+        .pagination-btns button {
+            padding: 8px;
+            font-size: 12px;
+            width: 48% !important;
         }
-
-        .pagination-btns button { padding: 5px 8px; font-size: 11px; width: auto; }
 
         .student-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             margin: 10px 0;
             background: rgba(0,0,0,0.03);
             padding: 10px;
-            border-radius: 6px;
+            border-radius: 8px;
+            width: 100%;
         }
 
-        @media (min-width: 768px) {
-            .student-details { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+        .detail-item { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.08);
         }
-
-        .detail-item { text-align: center; }
-        .detail-item span { display: block; font-size: 10px; opacity: 0.8; }
+        .detail-item:last-child { border-bottom: none; }
+        .detail-item span { font-size: 12px; opacity: 0.8; }
         .detail-item strong { font-size: 15px; color: var(--secondary); }
 
         .sub-box {
             background: rgba(0,0,0,0.02);
             border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 10px;
             margin-top: 10px;
+            width: 100%;
         }
 
-        .sub-box h5 { margin-top: 0; color: var(--secondary); font-size: 13px; }
+        .sub-box h5 { margin-top: 0; color: var(--secondary); font-size: 13px; margin-bottom: 8px; }
 
         .preview-msg {
             background: rgba(37, 99, 235, 0.08);
             border-right: 4px solid var(--secondary);
-            padding: 9px;
-            margin: 6px 0;
+            padding: 8px;
+            margin: 8px 0;
             border-radius: 4px;
             white-space: pre-wrap;
             font-size: 12px;
             direction: rtl;
             text-align: right;
             word-break: break-word;
+            width: 100%;
         }
 
         .whatsapp-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
+            display: block;
             background: #25D366;
             color: white;
             text-decoration: none;
-            padding: 9px 12px;
+            padding: 10px;
             border-radius: 6px;
             font-weight: bold;
-            margin-top: 4px;
+            margin-top: 5px;
             text-align: center;
-            width: 100%;
+            width: 100% !important;
             font-size: 13px;
         }
 
-        @media (min-width: 600px) {
-            .whatsapp-btn { width: auto; }
-        }
-
+        /* قائمة الدروس تنازلياً ورأسياً */
         .lessons-grid {
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 8px;
             margin-top: 10px;
-            max-height: 480px;
+            max-height: 400px;
             overflow-y: auto;
-            padding: 3px;
-        }
-
-        @media (min-width: 768px) {
-            .lessons-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+            padding: 2px;
+            width: 100%;
         }
 
         .lesson-card {
             background: rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.08);
-            padding: 9px;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            width: 100%;
         }
 
         .lesson-card.executed {
-            border-right: 4px solid var(--secondary);
+            border-right: 5px solid var(--secondary);
             background: rgba(37, 99, 235, 0.04);
         }
 
         .lesson-card.not-executed {
-            border-right: 4px solid var(--warning);
+            border-right: 5px solid var(--warning);
             background: rgba(245, 158, 11, 0.05);
         }
 
@@ -438,31 +441,31 @@
             font-size: 10px;
             color: #fff;
             background: var(--primary);
-            padding: 2px 5px;
+            padding: 2px 6px;
             border-radius: 4px;
             display: inline-block;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
 
-        .lesson-card strong { color: var(--secondary); font-size: 12px; display: block; margin-bottom: 2px; }
-        .lesson-card p { margin: 0 0 6px 0; font-size: 11px; opacity: 0.85; line-height: 1.4; }
+        .lesson-card strong { color: var(--secondary); font-size: 13px; display: block; margin-bottom: 4px; }
+        .lesson-card p { margin: 0 0 8px 0; font-size: 11px; opacity: 0.85; line-height: 1.4; }
 
         .lesson-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 6px;
-            gap: 4px;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 8px;
+            width: 100%;
         }
 
         .status-toggle-btn {
-            padding: 4px 8px;
-            font-size: 10px;
-            border-radius: 20px;
+            padding: 8px;
+            font-size: 12px;
+            border-radius: 6px;
             cursor: pointer;
             border: none;
             font-weight: bold;
-            width: auto;
+            width: 100% !important;
         }
 
         .status-toggle-btn.done { background-color: var(--secondary); color: white; }
@@ -470,55 +473,50 @@
 
         .toast {
             position: fixed;
-            bottom: 15px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--secondary);
             color: white;
-            padding: 7px 14px;
+            padding: 10px 16px;
             border-radius: 30px;
             display: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             z-index: 1000;
             font-size: 12px;
-            width: 90%;
-            max-width: 280px;
+            width: max-content;
+            max-width: 90%;
             text-align: center;
         }
 
+        /* أزرار التحكم والنسخ الاحتياطي عمودياً */
         .backup-controls {
             display: flex;
-            gap: 6px;
+            flex-direction: column;
+            gap: 8px;
             margin-top: 10px;
             padding-top: 10px;
             border-top: 1px dashed #ccc;
-            flex-wrap: wrap;
-        }
-
-        .backup-controls button {
-            flex: 1;
-            min-width: 120px;
-            font-size: 11px;
-            padding: 7px 8px;
+            width: 100%;
         }
 
         .class-badge {
             background-color: var(--secondary);
             color: white;
-            padding: 2px 5px;
-            border-radius: 8px;
+            padding: 2px 6px;
+            border-radius: 10px;
             font-size: 10px;
             font-weight: bold;
         }
 
         .mastery-btn {
-            padding: 3px 6px;
-            font-size: 10px;
-            border-radius: 20px;
+            padding: 6px 8px;
+            font-size: 11px;
+            border-radius: 6px;
             cursor: pointer;
             border: none;
             font-weight: bold;
-            width: auto;
+            width: 100% !important;
         }
         .mastery-btn.mastered { background-color: var(--success); color: white; }
         .mastery-btn.review { background-color: var(--danger); color: white; }
@@ -529,14 +527,13 @@
         }
 
         .searchable-input {
-            width: 100%;
-            padding: 9px;
+            width: 100% !important;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 14px;
             background-color: var(--card-bg);
             color: var(--text);
-            box-sizing: border-box;
         }
 
         .searchable-dropdown-list {
@@ -544,7 +541,7 @@
             top: 100%;
             left: 0;
             right: 0;
-            max-height: 180px;
+            max-height: 200px;
             overflow-y: auto;
             background: var(--card-bg);
             border: 1px solid var(--secondary);
@@ -555,17 +552,10 @@
         }
 
         .searchable-item {
-            padding: 7px 10px;
+            padding: 10px;
             cursor: pointer;
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            transition: background 0.15s;
-            font-size: 12px;
-        }
-
-        .searchable-item:hover {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--secondary);
-            font-weight: bold;
+            font-size: 13px;
         }
 
         .footer-note {
@@ -576,21 +566,22 @@
             opacity: 0.75;
             border-top: 1px solid rgba(0,0,0,0.1);
             line-height: 1.5;
+            width: 100%;
         }
 
         .floating-action-buttons {
             position: fixed;
-            bottom: 12px;
-            right: 12px;
+            bottom: 15px;
+            right: 15px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             z-index: 999;
         }
 
         .float-btn {
-            width: 38px;
-            height: 38px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: var(--secondary);
             color: white;
@@ -600,41 +591,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 18px;
             text-decoration: none;
         }
 
         .float-whatsapp { background: #25D366; }
         .float-top { background: var(--primary); display: none; }
+        .float-install { background: #8b5cf6; display: none; }
 
-        /* تنسيق دوائر التضليل (Bubble Sheet Circles) بحجم أكبر ووضوح تام لتقليل أخطاء المسح */
-        .bubble-option {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-left: 14px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-        .bubble-circle {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 2px solid #000;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 14px;
-            font-size: 10px;
-            font-weight: bold;
-            background: #fff;
-        }
-
-        /* تنسيق مخصص لملء ورقة A4 كاملة تماماً وبشكل مريح لعين الطالب والكاميرا لتقليل الأخطاء */
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 10mm;
-            }
             body * { visibility: hidden !important; }
             .printing-section, .printing-section * {
                 visibility: visible !important;
@@ -647,27 +612,23 @@
                 left: 0 !important;
                 top: 0 !important;
                 width: 100% !important;
-                min-height: 98vh !important;
                 background: #ffffff !important;
                 box-shadow: none !important;
                 margin: 0 !important;
                 padding: 10px !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: space-between !important;
+            }
+            .printing-section table, 
+            .printing-section th, 
+            .printing-section td {
+                border: 2px solid #000000 !important;
+                color: #000000 !important;
+            }
+            .printing-section th {
+                background-color: #d1d5db !important;
+                font-weight: bold !important;
             }
             .no-print, button, select, textarea, .pagination-bar, .backup-controls, .form-row, .classes-query-grid, .floating-action-buttons, .top-banner {
                 display: none !important;
-            }
-            #printTestQuestionsList > div {
-                margin-bottom: 10px !important;
-                padding: 6px 10px !important;
-                font-size: 12.5px !important;
-                line-height: 1.5 !important;
-                border-right: 3px solid #000 !important;
-                background: #fdfdfd !important;
-                border: 1px solid #e2e8f0 !important;
-                border-right-width: 4px !important;
             }
         }
     </style>
@@ -675,30 +636,30 @@
 <body class="theme-default">
 
     <div class="top-banner">
-        ﴿ هذا الجهد استغرق وقتاً وعناية، ولا أحلل نقله تجارياً أو نسخه دون إذن ﴾<br>
+        ﴿ هذا الجهد استغرق وقتاً وعناية، ولا أحلل نقله تجارياً أو نسخ دون إذن ﴾<br>
         للتواصل والاتصال عبر واتساب: <a href="https://wa.me/966581015002" target="_blank" style="color: #ffff00; text-decoration: underline;">0581015002</a>
     </div>
 
     <div class="header">
-        <h1>🏫 مدرسة داوود بن عروة الثقفي الابتدائية</h1>
-        <div>إعداد المعلم: منصور عامر الرحيلي</div>
+        <h1>(مدرسة داوود بن عروة الثقفي)</h1>
+        <div>إعداد المعلم: منصور عامرالرحيلي</div>
         <p>لوحة تحكم معلم مادة العلوم للمرحلة الابتدائية (وفق المنهج السعودي)</p>
         <div class="subscription-badge">⏳ نهاية الاشتراك: 2027/07/01</div>
 
         <div class="theme-switcher">
             <span style="font-size: 11px; margin-left: 3px;">🎨 المظهر:</span>
-            <button class="theme-btn" onclick="setTheme('theme-default')" title="الافتراضي">📘</button>
-            <button class="theme-btn" onclick="setTheme('theme-royal')" title="ملكي">👑</button>
-            <button class="theme-btn" onclick="setTheme('theme-emerald')" title="زمردي">🌲</button>
-            <button class="theme-btn" onclick="setTheme('theme-amber')" title="ذهبي">⭐</button>
-            <button class="theme-btn" onclick="setTheme('theme-blue')" title="أزرق داكن">🌊</button>
+            <button class="theme-btn" onclick="setTheme('theme-default')">📘</button>
+            <button class="theme-btn" onclick="setTheme('theme-royal')">👑</button>
+            <button class="theme-btn" onclick="setTheme('theme-emerald')">🌲</button>
+            <button class="theme-btn" onclick="setTheme('theme-amber')">⭐</button>
+            <button class="theme-btn" onclick="setTheme('theme-blue')">🌊</button>
         </div>
     </div>
 
     <div class="container">
         <!-- اختيار الصف الدراسي -->
         <div class="section-card no-print" style="background: linear-gradient(135deg, rgba(37,99,235,0.05), rgba(30,58,138,0.1)); border: 2px solid var(--secondary);">
-            <h3 style="margin-bottom: 6px;">📌 اختر الصف الدراسي للمتابعة</h3>
+            <h3 style="margin-bottom: 8px;">📌 اختر الصف الدراسي للمتابعة</h3>
             <div class="form-row" style="margin-bottom: 0;">
                 <select id="globalGradeSelect" onchange="changeGradeLevel(this.value)" style="font-weight: bold; font-size: 14px; color: var(--secondary);">
                     <option value="الأول الابتدائي">الصف الأول الابتدائي</option>
@@ -708,6 +669,19 @@
                     <option value="الخامس الابتدائي">الصف الخامس الابتدائي</option>
                     <option value="السادس الابتدائي">الصف السادس الابتدائي</option>
                 </select>
+            </div>
+        </div>
+
+        <!-- التصحيح الآلي والاختبارات -->
+        <div class="section-card no-print" style="background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(5,150,105,0.12)); border: 2px solid var(--success);">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div>
+                    <h3 style="color: var(--success); margin: 0 0 4px 0;">🤖 نظام التصحيح الآلي الذكي والاختبارات</h3>
+                    <p style="margin: 0; font-size: 11px; opacity: 0.85; line-height: 1.4;">يحتوي على 10 نماذج (قبلية/بعدية) و10 نماذج (الفترة 1 و 2) بنسبة خطأ صفر% للاختيارات عبر تصوير نموذج الإجابة.</p>
+                </div>
+                <a href="auto-correction.html" target="_blank" class="whatsapp-btn" style="background: var(--success); text-decoration: none; padding: 10px; font-size: 13px; border-radius: 6px; text-align: center;">
+                    🎯 الانتقال لصفحة التصحيح الآلي (GitHub)
+                </a>
             </div>
         </div>
 
@@ -747,146 +721,31 @@
             </div>
         </div>
 
-        <!-- 📋 قسم نماذج أسئلة الاختبار (متعدد النماذج: قبلي/بعدي وفتري - يملأ ورقة A4 بالكامل وبوضوح عالٍ لتقليل الأخطاء) -->
-        <div class="section-card" id="testGeneratorSection">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📋 📑 أسئلة الاختبار (بدوائر تضليل واسعة وملء ورقة A4 بالكامل لدقة المسح)</h3>
-                <button class="btn-print" onclick="printSection('testGeneratorSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الاختبار على ورقة A4 كاملة</button>
-            </div>
-
-            <!-- أزرار اختيار نوع ونموذج الاختبار المطلوبة -->
-            <div class="form-row no-print" style="background: rgba(37,99,235,0.03); padding: 8px; border-radius: 6px; border: 1px solid var(--secondary); align-items: center;">
-                <div style="flex: 1; min-width: 220px;">
-                    <label style="font-size: 11px; font-weight: bold; display: block; margin-bottom: 3px;">نوع الاختبار:</label>
-                    <select id="examCategorySelect" onchange="onExamCategoryChange()" style="font-size: 12px; font-weight: bold;">
-                        <option value="prepost">الاختبارات القبلية والبعدية</option>
-                        <option value="periodic">الاختبارات الفترية</option>
-                    </select>
-                </div>
-                <div style="flex: 1; min-width: 220px;">
-                    <label style="font-size: 11px; font-weight: bold; display: block; margin-bottom: 3px;">اختر النموذج:</label>
-                    <select id="examModelSelect" onchange="renderSpecificTestModel()" style="font-size: 12px; font-weight: bold; color: var(--secondary);">
-                        <!-- سيتم تعبئتها ديناميكياً بـ 4 أو 10 نماذج -->
-                    </select>
-                </div>
-            </div>
-
-            <div id="testPreviewArea" class="sub-box" style="display: block; background: #ffffff; border: 2px solid var(--secondary); padding: 12px;">
-                <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 10px;">
-                    <h4 id="printTestHeaderTitle" style="margin: 0 0 4px 0; color: #000; font-size: 16px; font-weight: bold;">اختبار مادة العلوم التقييمي الشامل</h4>
-                    <p style="font-size: 11px; margin: 3px 0; color: #000; font-weight: bold;">مدرسة داوود بن عروة الثقفي الابتدائية | معلم المادة: منصور عامر الرحيلي | الصف: <span id="printTestGrade">الأول الابتدائي</span> | <span id="printTestModelBadge" style="font-weight:bold;">النموذج (1)</span></p>
-                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 6px; color: #000; font-weight: bold; border-top: 1px dashed #666; padding-top: 4px;">
-                        <span>اسم الطالب: ............................................................................</span>
-                        <span>الدرجة: ........ / ١٠</span>
-                    </div>
-                </div>
-                <div id="printTestQuestionsList" style="font-size: 12px; color: #000; line-height: 1.5;">
-                    <!-- تفاصيل 10 أسئلة الاختيار من متعدد مع دوائر تضليل واسعة -->
-                </div>
-                <div style="margin-top: 15px; border-top: 2px solid #000; padding-top: 6px; text-align: center; font-size: 10px; font-weight: bold;">
-                    ⚠️ تنبيه للتضليل الآلي: ظلل الدائرة بشكل كامل وداكن داخل الخيار الصحيح لكل سؤال لتفادي أخطاء المسح الضوئي.
-                </div>
-            </div>
-        </div>
-
-        <!-- 📸 نظام التصحيح الآلي للاختبارات وتحليل النتائج -->
-        <div class="section-card" id="autoGradingSection">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📸 التصحيح الآلي الدقيق للاختبارات والتحليل الإحصائي</h3>
-                <button class="btn-print" onclick="printSection('autoGradingSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة تقرير التحليل</button>
-            </div>
-
-            <!-- إعداد نموذج الإجابة النموذجي -->
-            <div class="sub-box" style="margin-top: 0; background: rgba(37,99,235,0.03); border: 1px solid var(--secondary);">
-                <h5 style="color: var(--secondary);">📝 الخطوة 1: تحديد مفتاح الإجابة النموذجي (لـ 10 أسئلة اختيار من متعدد)</h5>
-                <div class="form-row">
-                    <select id="examTargetClassForGrading" onchange="renderAutoGradingTable()">
-                        <option value="">-- اختر الصف لتطبيق التصحيح --</option>
-                    </select>
-                    <input type="number" id="examTotalQuestions" value="10" min="1" max="20" placeholder="عدد الأسئلة" onchange="updateAnswerKeyInputs()" style="max-width: 110px;" readonly>
-                </div>
-                <div id="answerKeyContainer" class="form-row" style="background: #fff; padding: 8px; border-radius: 6px; border: 1px dashed var(--secondary); overflow-x: auto;">
-                    <!-- حقول مفتاح الإجابة الـ 10 -->
-                </div>
-            </div>
-
-            <!-- الماسح الضوئي المطور -->
-            <div class="sub-box" style="background: #ffffff;">
-                <h5>📷 الخطوة 2: مسح وتصحيح أوراق الإجابة المطبوعة على A4</h5>
-                <div class="form-row" style="align-items: center; gap: 8px;">
-                    <input type="file" id="cameraScanInput" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraScan(event)">
-                    <button class="btn-info" onclick="document.getElementById('cameraScanInput').click()" style="background: #2563eb; flex: 1;">
-                        📷 التقاط صورة ورقة الطالب بالكاميرا (مسح ضوئي ممدد على A4)
-                    </button>
-                    <button class="btn-success" onclick="autoCorrectAllClassStudents()" style="flex: 1;">
-                        ⚡ تصحيح آلي فوري لكافة طلاب الصف
-                    </button>
-                </div>
-                <p style="font-size: 10px; opacity: 0.8; margin: 3px 0;">* ملاحظة: بعد طباعة الاختبار على ورقة A4 كاملة وتعبئتها، يتيح لك التصوير أو المطابقة الفورية دقة متناهية وخلو تام من الأخطاء.</p>
-            </div>
-
-            <!-- جدول التصحيح والتحليل الآلي للنتائج -->
-            <div class="sub-box" style="background: #ffffff;">
-                <h5 style="color: var(--secondary);">📊 الخطوة 3: نتائج التصحيح الآلي وتحليل أداء الطلاب</h5>
-                <div class="student-details" style="margin-bottom: 8px;">
-                    <div class="detail-item">
-                        <span>متوسط درجات الاختبار</span>
-                        <strong id="statAvgScore">0</strong>
-                    </div>
-                    <div class="detail-item">
-                        <span>عدد الطلاب المجتازين</span>
-                        <strong id="statPassedCount" style="color: var(--success);">0</strong>
-                    </div>
-                    <div class="detail-item">
-                        <span>نسبة الإتقان العامة</span>
-                        <strong id="statMasteryRate" style="color: var(--info);">0%</strong>
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>اسم الطالب</th>
-                                <th>🏫 الصف</th>
-                                <th>إجابات الطالب (10 إجابات مفصولة بفاصلة)</th>
-                                <th>النتيجة الآلية</th>
-                                <th class="no-print">إجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="autoGradingTbody">
-                            <tr><td colspan="5" style="padding: 12px; opacity: 0.7;">الرجاء اختيار الصف وتحديد مفتاح الإجابة أعلاه.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
         <!-- تسجيل الطلاب والصفوف والجدول -->
         <div class="section-card" id="studentsTableSection">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+            <div style="display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 8px; margin-bottom: 10px;">
                 <h3 style="margin: 0; border: none; padding: 0;">✏️ تسجيل الطلاب والصفوف ومتابعتهم</h3>
-                <button class="btn-print no-print" onclick="printSection('studentsTableSection')" title="طباعة جدول الطلاب والصفوف" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة الجدول</button>
+                <button class="btn-print no-print" onclick="printSection('studentsTableSection')" title="طباعة جدول الطلاب والصفوف">🖨️ طباعة الجدول</button>
             </div>
             
             <div class="form-row no-print">
                 <input type="text" id="studentName" placeholder="اسم الطالب (Student Name)">
-                <input type="text" id="studentClassCustom" placeholder="اكتب الصف (مثال: رابع ابتدائي أول)">
+                <input type="text" id="studentClassCustom" placeholder="الصف (مثال: رابع ابتدائي أول)">
                 <input type="tel" id="studentPhone" maxlength="10" placeholder="رقم جوال ولي الأمر (10 أرقام)">
                 <button onclick="addStudent()">➕ إضافة طالب</button>
             </div>
 
-            <div style="margin-top: 12px;" class="no-print">
-                <span style="font-weight: bold; font-size: 12px; display: block; margin-bottom: 5px;">🏫 تصفح الصفوف (اضغط على الصف لعرضه):</span>
+            <div style="margin-top: 10px;" class="no-print">
+                <span style="font-weight: bold; font-size: 12px; display: block; margin-bottom: 6px;">🏫 تصفح الصفوف (اضغط على الصف لعرضه):</span>
                 <div id="classesQueryContainer" class="classes-query-grid"></div>
             </div>
 
-            <div class="form-row no-print" style="align-items: center; background: rgba(0,0,0,0.03); padding: 7px; border-radius: 6px; margin-top: 10px;">
-                <span style="font-weight: bold; font-size: 12px; width: 100%;">🔍 بحث عن طالب محدد بالاسم:</span>
-                <input type="text" id="filterStudentNameInput" placeholder="اكتب اسم الطالب للبحث..." oninput="filterTableByStudentInput()" style="max-width: 100%;">
+            <div class="form-row no-print" style="background: rgba(0,0,0,0.03); padding: 8px; border-radius: 6px; margin-top: 10px;">
+                <span style="font-weight: bold; font-size: 12px; display: block; margin-bottom: 4px;">🔍 بحث عن طالب بالاسم:</span>
+                <input type="text" id="filterStudentNameInput" placeholder="اكتب اسم الطالب للبحث..." oninput="filterTableByStudentInput()">
             </div>
 
-            <div class="table-responsive">
+            <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
                 <table>
                     <thead>
                         <tr>
@@ -906,10 +765,10 @@
             </div>
 
             <div class="pagination-bar no-print">
-                <div id="paginationInfo" style="font-size: 11px; font-weight: bold; width: 100%; text-align: center; margin-bottom: 4px;">عرض 0 من 0</div>
+                <div id="paginationInfo" style="font-size: 11px; font-weight: bold; text-align: center;">عرض 0 من 0</div>
                 <div class="pagination-btns">
                     <button id="prevPageBtn" onclick="changePage(-1)" class="btn-info">◀ السابق</button>
-                    <span id="pageIndicator" style="font-size: 12px; font-weight: bold; padding: 0 6px;">1 / 1</span>
+                    <span id="pageIndicator" style="font-size: 12px; font-weight: bold; align-self: center;">1 / 1</span>
                     <button id="nextPageBtn" onclick="changePage(1)" class="btn-info">التالي ▶</button>
                 </div>
             </div>
@@ -919,18 +778,18 @@
                 <button class="btn-warning" onclick="document.getElementById('importExcelFile').click()">📂 استيراد إكسل</button>
                 <input type="file" id="importExcelFile" accept=".xlsx, .xls" style="display: none;" onchange="importExcel(event)">
 
-                <button class="btn-success" onclick="exportToGoogleSheetsCSV()">☁️ تصدير CSV</button>
-                <button class="btn-info" onclick="exportData()">💾 حفظ JSON</button>
+                <button class="btn-success" onclick="exportToGoogleSheetsCSV()">☁️ Google Sheets</button>
+                <button class="btn-info" onclick="exportData()">💾 تصدير JSON</button>
                 <button class="btn-warning" onclick="document.getElementById('importFile').click()">📂 استرجاع JSON</button>
                 <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
             </div>
         </div>
 
-        <!-- نظام تتبع إتقان الدروس لكل طالب -->
+        <!-- تتبع إتقان الدروس لكل طالب -->
         <div class="section-card" id="lessonMasterySection">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">🎯 تتبع إتقان كل درس لكل طالب</h3>
-                <button class="btn-print" onclick="printSection('lessonMasterySection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة تقرير الإتقان</button>
+            <div style="display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 8px; margin-bottom: 10px;">
+                <h3 style="margin: 0; border: none; padding: 0;">🎯 تتبع إتقان الدروس (متقن / مراجعة)</h3>
+                <button class="btn-print" onclick="printSection('lessonMasterySection')">🖨️ طباعة التتقرير</button>
             </div>
 
             <div class="form-row no-print">
@@ -946,28 +805,28 @@
                 <h5>📊 إحصائية إتقان الدرس المحدد</h5>
                 <div class="student-details" style="margin: 6px 0;">
                     <div class="detail-item">
-                        <span>عدد الطلاب المتقنين</span>
+                        <span>الطلاب المتقنين</span>
                         <strong id="countMastered" style="color: var(--success);">0</strong>
                     </div>
                     <div class="detail-item">
-                        <span>بحاجة لإعادة شرح / مراجعة</span>
+                        <span>بحاجة لإعادة شرح</span>
                         <strong id="countReview" style="color: var(--danger);">0</strong>
                     </div>
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
                 <table>
                     <thead>
                         <tr>
                             <th>اسم الطالب</th>
                             <th>🏫 الصف</th>
-                            <th>حالة الإتقان للدرس المختصر</th>
-                            <th class="no-print">تبديل الحالة بنقرة واحدة</th>
+                            <th>حالة الإتقان</th>
+                            <th class="no-print">تبديل الحالة</th>
                         </tr>
                     </thead>
                     <tbody id="masteryTbody">
-                        <tr><td colspan="4" style="padding: 12px; opacity: 0.7;">الرجاء اختيار الدرس من القائمة أعلاه لعرض حالات إتقان الطلاب.</td></tr>
+                        <tr><td colspan="4" style="padding: 15px; opacity: 0.7;">الرجاء اختيار الدرس من القائمة أعلاه.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -975,44 +834,44 @@
 
         <!-- رصد اختبارات الفترة الأولى والثانية -->
         <div class="section-card" id="examsSection">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">📊 رصد وتحليل اختبارات الفترة (من ٢٠) 📝</h3>
-                <button class="btn-print" onclick="printSection('examsSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة تقرير الاختبارات</button>
+            <div style="display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 8px; margin-bottom: 10px;">
+                <h3 style="margin: 0; border: none; padding: 0;">📊 رصد اختبارات الفترة الأولى والثانية (من ٢٠) 📝</h3>
+                <button class="btn-print" onclick="printSection('examsSection')">🖨️ طباعة التقرير</button>
             </div>
             
             <div class="form-row no-print">
                 <select id="examClassSelect" onchange="renderExamsTable()">
-                    <option value="">-- اختر الصف لعرض سجل الاختبارات --</option>
+                    <option value="">-- اختر الصف لعرض وسجل الاختبارات --</option>
                 </select>
             </div>
 
             <div id="examsAnalysisBox" class="sub-box" style="display: none; margin-bottom: 10px;">
-                <h5>📈 مؤشرات التحليل الإحصائي لنتائج الصف المحدد</h5>
+                <h5>📈 مؤشرات التحليل الإحصائي لنتائج الصف</h5>
                 <div class="student-details" style="margin: 6px 0;">
                     <div class="detail-item">
-                        <span>متوسط اختبار الفترة 1 (من 20)</span>
+                        <span>متوسط الفترة 1</span>
                         <strong id="avgExam1">0</strong>
                     </div>
                     <div class="detail-item">
-                        <span>متوسط اختبار الفترة 2 (من 20)</span>
+                        <span>متوسط الفترة 2</span>
                         <strong id="avgExam2">0</strong>
                     </div>
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
                 <table>
                     <thead>
                         <tr>
                             <th>اسم الطالب</th>
                             <th>🏫 الصف</th>
-                            <th>📝 الفترة 1 (من 20)</th>
-                            <th>📝 الفترة 2 (من 20)</th>
+                            <th>📝 الفترة 1 (20)</th>
+                            <th>📝 الفترة 2 (20)</th>
                             <th class="no-print">📤 إرسال النتيجة</th>
                         </tr>
                     </thead>
                     <tbody id="examsTbody">
-                        <tr><td colspan="5" style="padding: 12px; opacity: 0.7;">الرجاء اختيار الصف الدراسي من القائمة أعلاه لعرض رصد واختبارات الطلاب.</td></tr>
+                        <tr><td colspan="5" style="padding: 15px; opacity: 0.7;">الرجاء اختيار الصف الدراسي من القائمة أعلاه.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1020,20 +879,20 @@
 
         <!-- استعلام عن طالب -->
         <div class="section-card" id="studentReportSection">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 6px; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+            <div style="display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 8px; margin-bottom: 10px;">
                 <h3 style="margin: 0; border: none; padding: 0;">🔍 استعلام وتتبع طالب محدد</h3>
-                <button class="btn-print no-print" onclick="printSection('studentReportSection')" style="width: auto; padding: 5px 10px; font-size: 11px;">🖨️ طباعة تقرير الطالب</button>
+                <button class="btn-print no-print" onclick="printSection('studentReportSection')">🖨️ طباعة التقرير</button>
             </div>
             <div class="form-row no-print">
                 <div class="searchable-dropdown-container">
-                    <input type="text" id="studentSearchInput" class="searchable-input" placeholder="اكتب اسم الطالب للبحث الحر بالكيبورد..." oninput="filterStudentDropdown()" onfocus="showStudentDropdown()" autocomplete="off">
+                    <input type="text" id="studentSearchInput" class="searchable-input" placeholder="اكتب اسم الطالب للبحث..." oninput="filterStudentDropdown()" onfocus="showStudentDropdown()" autocomplete="off">
                     <div id="studentDropdownList" class="searchable-dropdown-list"></div>
                 </div>
             </div>
 
             <div id="studentCard" style="display: none;">
                 <div>
-                    <h4 style="font-size: 14px;">سجل الطالب: <span id="selectedName"></span> (<span id="selectedClassBadge" class="class-badge"></span>)</h4>
+                    <h4 style="margin: 5px 0 8px 0; font-size: 14px;">سجل الطالب: <span id="selectedName"></span> (<span id="selectedClassBadge" class="class-badge"></span>)</h4>
                     <div class="student-details">
                         <div class="detail-item"><span>المشاركات</span><strong id="sdParticipation">0</strong></div>
                         <div class="detail-item"><span>الواجبات</span><strong id="sdHomework">0</strong></div>
@@ -1044,21 +903,21 @@
                     </div>
                 </div>
 
-                <div class="form-row no-print" style="margin-top: 10px; gap: 6px;">
-                    <button class="btn-print" onclick="printStudentReport()" style="flex: 1;">🖨️ طباعة رسمية</button>
-                    <button class="whatsapp-btn" onclick="sendFullReportWhatsApp()" style="border: none; cursor: pointer; margin-top: 0; flex: 1;">📤 إرسال التقرير الشامل</button>
+                <div class="form-row no-print" style="margin-top: 10px;">
+                    <button class="btn-print" onclick="printStudentReport()">🖨️ طباعة التقرير الرسمي</button>
+                    <button class="whatsapp-btn" onclick="sendFullReportWhatsApp()">📤 إرسال التقرير الشامل عبر واتساب</button>
                 </div>
 
                 <div class="sub-box">
                     <h5>💬 إشعار ولي الأمر بالدرس والمهارة العلمية</h5>
-                    <div class="no-print" style="font-size: 11px;">📱 رقم الجوال المحدد: <span id="sdPhone">لا يوجد</span></div>
-                    <div class="form-row no-print" style="margin-top: 6px;">
+                    <div class="no-print" style="font-size: 11px;">📱 رقم الجوال: <span id="sdPhone">لا يوجد</span></div>
+                    <div class="form-row no-print" style="margin-top: 8px;">
                         <select id="selectLesson" onchange="updateLessonMsg()">
                             <option value="">-- اختر موضوع الدرس والمهارة --</option>
                         </select>
                     </div>
-                    <div id="lessonMsgPreview" class="preview-msg">اختر موضوع الدرس والمهارة أعلاه لتوليد نص الرسالة تلقائياً...</div>
-                    <a id="whatsappLessonBtn" href="#" target="_blank" class="whatsapp-btn no-print" onclick="incrementMessageCount()" style="display: block;">📲 إرسال مباشر لولي الأمر</a>
+                    <div id="lessonMsgPreview" class="preview-msg">اختر موضوع الدرس والمهارة أعلاه...</div>
+                    <a id="whatsappLessonBtn" href="#" target="_blank" class="whatsapp-btn no-print" onclick="incrementMessageCount()">📲 إرسال مباشر لولي الأمر</a>
                 </div>
 
                 <div class="sub-box">
@@ -1069,19 +928,19 @@
                         </select>
                     </div>
                     
-                    <div class="form-row no-print" style="margin-top: 6px; background: rgba(37, 99, 235, 0.05); padding: 7px; border-radius: 6px; gap: 6px;">
+                    <div class="form-row no-print" style="margin-top: 8px; background: rgba(37, 99, 235, 0.05); padding: 8px; border-radius: 6px;">
                         <input type="text" id="newMotivationTitle" placeholder="عنوان الرسالة...">
-                        <input type="text" id="newMotivationText" placeholder="اكتب نص الرسالة التشجيعية الجديدة هنا...">
-                        <button onclick="addNewMotivation()" style="width: 100%;">➕ إضافة رسالة</button>
+                        <input type="text" id="newMotivationText" placeholder="نص الرسالة التشجيعية الجديد...">
+                        <button onclick="addNewMotivation()">➕ إضافة رسالة</button>
                     </div>
 
                     <div id="motivationMsgPreview" class="preview-msg">اختر الرسالة لعرض نص الشكر والتحفيز...</div>
-                    <a id="whatsappMotivationBtn" href="#" target="_blank" class="whatsapp-btn no-print" onclick="incrementMessageCount()" style="display: block;">🏆 إرسال رسالة التشجيع</a>
+                    <a id="whatsappMotivationBtn" href="#" target="_blank" class="whatsapp-btn no-print" onclick="incrementMessageCount()">🏆 إرسال رسالة التشجيع لولي الأمر</a>
                 </div>
             </div>
         </div>
 
-        <!-- إرسال جماعي للواجب فقط لأولياء الأمور -->
+        <!-- إرسال جماعي للواجب -->
         <div class="section-card no-print">
             <h3>📢 إرسال الواجب المدرسي الجماعي لأولياء الأمور</h3>
             <div class="sub-box" style="margin-top: 0;">
@@ -1090,54 +949,54 @@
                         <option value="ALL">جميع الصفوف</option>
                     </select>
                     <select id="bulkSelectHomeworkLesson" onchange="updateBulkHomeworkMsgPreview()">
-                        <option value="">-- اختر الدرس لتحديد الواجب المراد إرساله --</option>
+                        <option value="">-- اختر الدرس لتحديد الواجب --</option>
                     </select>
                 </div>
-                <div class="form-row" style="margin-top: 6px;">
-                    <input type="text" id="bulkHomeworkDetails" placeholder="تفاصيل الواجب المطلوب حلّه (مثال: حل التمارين ص 45)..." oninput="updateBulkHomeworkMsgPreview()">
+                <div class="form-row" style="margin-top: 8px;">
+                    <input type="text" id="bulkHomeworkDetails" placeholder="تفاصيل الواجب (مثال: حل ص 45)..." oninput="updateBulkHomeworkMsgPreview()">
                 </div>
-                <div class="form-row" style="margin-top: 6px;">
-                    <input type="text" id="bulkHomeworkExtraNote" placeholder="ملاحظات إضافية للواجب (اختياري)..." oninput="updateBulkHomeworkMsgPreview()">
+                <div class="form-row" style="margin-top: 8px;">
+                    <input type="text" id="bulkHomeworkExtraNote" placeholder="ملاحظات إضافية (اختياري)..." oninput="updateBulkHomeworkMsgPreview()">
                 </div>
-                <div id="bulkHomeworkMsgPreview" class="preview-msg">اختر الصف والدرس وأدخل تفاصيل الواجب لعرض نموذج رسالة الواجب الجماعية...</div>
+                <div id="bulkHomeworkMsgPreview" class="preview-msg">اختر الصف والدرس وأدخل تفاصيل الواجب...</div>
                 
-                <div id="bulkSendPanel" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.04); padding: 10px; border-radius: 6px; border: 1px solid var(--secondary);">
-                    <h5 style="margin-top: 0; color: var(--secondary); font-size: 12px;">📤 قائمة إرسال الواجب الجماعي (انقر فوق زر كل ولي أمر للإرسال الفردي بأمان):</h5>
-                    <div id="bulkSendListContainer" style="display: flex; flex-direction: column; gap: 5px; max-height: 180px; overflow-y: auto; margin-top: 6px;"></div>
+                <div id="bulkSendPanel" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.04); padding: 8px; border-radius: 8px; border: 1px solid var(--secondary);">
+                    <h5 style="margin-top: 0; color: var(--secondary); font-size: 12px;">📤 قائمة إرسال الواجب الجماعي:</h5>
+                    <div id="bulkSendListContainer" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto; margin-top: 8px;"></div>
                 </div>
 
-                <button class="whatsapp-btn" onclick="prepareBulkHomeworkBatch()" style="border: none; cursor: pointer; font-size: 13px; width: 100%; margin-top: 8px;">🚀 تجهيز روابط إرسال الواجب الجماعي</button>
+                <button class="whatsapp-btn" onclick="prepareBulkHomeworkBatch()">🚀 تجهيز روابط إرسال الواجب الجماعي</button>
             </div>
         </div>
 
         <!-- قائمة وحدات ودروس مادة العلوم -->
         <div class="section-card no-print">
-            <h3 id="curriculumTitle" style="font-size: 14px;">📚 دليل مقرر العلوم - المرحلة الابتدائية (المنهج السعودي المعتمد للفصلين) وتتبع التنفيذ</h3>
+            <h3 id="curriculumTitle">📚 دليل مقرر العلوم وتتبع التنفيذ</h3>
             
             <div class="sub-box" style="margin-bottom: 10px; margin-top: 0;">
-                <h5 style="margin-bottom: 6px;">➕ إضافة درس فردي أو مجموعة دروس دفعة واحدة</h5>
+                <h5 style="margin-bottom: 8px;">➕ إضافة درس جديد</h5>
                 
                 <div class="form-row">
                     <input type="text" id="newLessonTitle" placeholder="عنوان الوحدة والنص والدرس...">
-                    <input type="text" id="newLessonDesc" placeholder="تفاصيل المفاهيم العلمية والتجارب الاستهلالية...">
-                    <button onclick="addNewLesson()" style="width: 100%;">➕ إضافة الدرس الفردي</button>
+                    <input type="text" id="newLessonDesc" placeholder="تفاصيل المفاهيم والتجارب...">
+                    <button onclick="addNewLesson()">➕ إضافة درس</button>
                 </div>
 
                 <div class="form-row" style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px;">
-                    <textarea id="bulkLessonsInput" rows="2" placeholder="أدخل مجموعة دروس دفعة واحدة (كل درس في سطر مستقل):&#10;اسم الوحدة | عنوان الدرس | الوصف والتفاصيل" style="width:100%;"></textarea>
-                    <button class="btn-info" onclick="addBatchLessons()" style="width:100%; margin-top: 6px;">📥 إضافة مجموعة الدروس دفعة واحدة</button>
+                    <textarea id="bulkLessonsInput" rows="3" placeholder="أدخل مجموعة دروس (درس لكل سطر):&#10;اسم الوحدة | عنوان الدرس | الوصف"></textarea>
+                    <button class="btn-info" onclick="addBatchLessons()">📥 إضافة مجموعة دروس</button>
                 </div>
             </div>
 
             <div class="sub-box" style="background: rgba(37,99,235,0.03); border: 1px solid var(--secondary);">
-                <h5 style="color: var(--secondary);">📑 القائمة المنسدلة لدليل مقرر العلوم والوحدات الدراسية</h5>
-                <div class="form-row" style="margin-bottom: 6px;">
+                <h5 style="color: var(--secondary);">📑 القائمة المنسدلة لدليل مقرر العلوم</h5>
+                <div class="form-row" style="margin-bottom: 8px;">
                     <select id="curriculumDropdownSelect" onchange="onCurriculumDropdownChange(this.value)" style="font-weight: bold; font-size: 13px; color: var(--secondary);">
-                        <option value="">-- اختر الدرس أو الوحدة من القائمة المنسدلة للاستعراض --</option>
+                        <option value="">-- اختر الدرس أو الوحدة للاستعراض --</option>
                     </select>
                 </div>
                 <div id="selectedLessonDetailsBox" class="preview-msg" style="display: none;">
-                    اختر درساً من القائمة المنسدلة أعلاه لعرض تفاصيله هنا...
+                    اختر درساً من القائمة المنسدلة أعلاه...
                 </div>
             </div>
 
@@ -1151,14 +1010,14 @@
 
     </div>
 
-    <div class="section-card" style="text-align: center; background: #ffffff; margin: 12px auto; max-width: 600px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 12px;">
+    <div class="section-card" style="text-align: center; background: #ffffff; margin: 10px auto; width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); padding: 12px;">
         <h4 style="color: var(--secondary, #2563eb); margin: 0 0 10px 0; font-size: 14px;">💾 النسخ الاحتياطي وإدارة البيانات</h4>
-        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;">
-            <button class="btn-info" onclick="backupAllData()" style="background: #e11d48; padding: 9px 12px; font-size: 12px; border-radius: 6px; cursor: pointer; color: white; border: none; flex: 1; font-weight: bold;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button class="btn-info" onclick="backupAllData()" style="background: #e11d48; padding: 10px; font-size: 13px; border-radius: 6px; cursor: pointer; color: white; border: none; font-weight: bold;">
                 💾 حفظ نسخة كاملة
             </button>
             <input type="file" id="importBackupFile" accept=".json" style="display: none;" onchange="restoreDashboardData(event)">
-            <button class="btn-warning" onclick="document.getElementById('importBackupFile').click()" style="background: #f59e0b; padding: 9px 12px; font-size: 12px; border-radius: 6px; cursor: pointer; color: white; border: none; flex: 1; font-weight: bold;">
+            <button class="btn-warning" onclick="document.getElementById('importBackupFile').click()" style="background: #f59e0b; padding: 10px; font-size: 13px; border-radius: 6px; cursor: pointer; color: white; border: none; font-weight: bold;">
                 📂 استرجاع النسخة
             </button>
         </div>
@@ -1166,6 +1025,7 @@
 
     <!-- الأزرار العائمة -->
     <div class="floating-action-buttons no-print">
+        <button id="pwaInstallBtn" class="float-btn float-install" onclick="installPWAApp()" title="تثبيت التطبيق على الشاشة الرئيسية">📲</button>
         <a href="https://wa.me/966581015002" target="_blank" class="float-btn float-whatsapp" title="تواصل الدعم الفني عبر واتساب">💬</a>
         <button id="scrollToTopBtn" class="float-btn float-top" onclick="scrollToTop()" title="العودة إلى أعلى الصفحة">⬆️</button>
     </div>
@@ -1173,15 +1033,8 @@
     <div id="toast" class="toast">✅ تم حفظ البيانات تلقائياً!</div>
 
     <script>
-        // تسجيل الـ Service Worker لتمكين تثبيت التطبيق بشكل كامل عبر manifest.json
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed: ', err));
-            });
-        }
-
-        const TEACHER_NAME = "منصور عامر الرحيلي";
-        const SCHOOL_NAME = "مدرسة داوود بن عروة الثقفي الابتدائية";
+        const TEACHER_NAME = " منصور عامر الرحيلي";
+        const SCHOOL_NAME = "مدرسة داوود بن عروة الثقفي()";
 
         let currentGrade = localStorage.getItem('mansour_current_grade_science_v5') || 'الأول الابتدائي';
         document.getElementById('globalGradeSelect').value = currentGrade;
@@ -1192,16 +1045,16 @@
         const rowsPerPage = 20;
 
         const defaultMotivations = [
-            { id: "1", title: "1. عالم المستقبل المتميز", text: "🌟 **عالم المستقبل المتميز** 🌟\nعزيزي ولي الأمر، نفخر اليوم بتميز ابنك وتألقه في حصة العلوم ومشاركته في التجارب العملية بحماس ونشاط. بوركت جهودكم!" },
-            { id: "2", title: "2. تفوق ملحوظ في الملاحظة والاستنتاج", text: "🔬 **تفوق ملحوظ في الملاحظة العلمية** 🔬\nعزيزي ولي الأمر، أظهر ابنك اليوم مهارات دقيقة في الملاحظة والتجريب واستنباط النتائج. أحسنت صنعاً!" },
-            { id: "3", title: "3. دقة وإتقان في المفاهيم العلمية", text: "🌱 **دقة وإتقان في المفاهيم والعلوم** 🌱\nعزيزي ولي الأمر، تميز ابنك اليوم باستيعابه العميق للحقائق العلمية وتوظيفها بذكاء. بارك الله في جهوده!" },
-            { id: "4", title: "4. مشاركة نشطة وفعالة في حصة العلوم", text: "✋ **مشاركة نشطة وتفاعل علمي متميز** ✋\nعزيزي ولي الأمر، تميز ابنك اليوم بحرصه العالي ومشاركته النشطة وإجاباته العلمية الموفقة داخل الصف." },
-            { id: "5", title: "5. حصيلة استكشافية وتجارب ممتازة", text: "🧠 **حصيلة استكشافية وتجارب ممتازة** 🧠\nعزيزي ولي الأمر، أبدع ابنك اليوم في تنفيذ التجارب الاستهلالية والاستكشافية بمهارة عالية. مبروك له!" },
-            { id: "6", title: "6. تنظيم رائع للدفتر وواجبات مرتبة بدقة", text: "📝 **تنظيم رائع للواجبات والأنشطة** 📝\nعزيزي ولي الأمر، نشكر لكم متابعتكم المنزلية الواعية. لقد كان واجب ابنك اليوم منظماً، دقيقاً، ومرتباً للغاية." },
-            { id: "7", title: "7. حل ممتاز للتدريبات والتقويم التكويني", text: "✍️ **حل ممتاز للتقويم والتدريبات**\nعزيزي ولي الأمر، تميز أداء ابنك اليوم بحل أسئلة التقويم والتدريبات العلمية بدقة عالية. دمت متميزاً يا بطل!" },
-            { id: "8", title: "8. اهتمام رائع بالبيئة ومخلوقات الله", text: "🌍 **اهتمام رائع بالبيئة والمحيط**\nعزيزي ولي الأمر، أظهر ابنك اليوم شغفاً واهتماماً لافتاً بدراسة الكائنات الحية وعناصر البيئة من حوله." },
-            { id: "9", title: "9. مشروع علمي متميز ومبتكر ومتقن", text: "🛠️ **مشروع علمي متميز ومبتكر ومتقن**\nعزيزي ولي الأمر، قدم ابنك اليوم مشروعاً علمياً رائعاً ومنظماً ينم عن تفكير إبداعي ومهارة عالية." },
-            { id: "10", title: "10. اجتهاد وحرص عالٍ على إتقان مهارات العلوم", text: "⭐ **اجتهاد وحرص عالٍ على إتقان العلوم**\nعزيزي ولي الأمر، إن حرص ابنك المستمر على الاستكشاف والتعلم في مادة العلوم محل تقديرنا الدائم." }
+            { id: "1", title: "1. عالم المستقبل المتميز", text: "🌟 **عالم المستقبل المتميز** 🌟\nعزيزي ولي الأمر، نفخر اليوم بتميز ابنكم وتألقه في حصة العلوم ومشاركته في التجارب العملية بحماس ونشاط. بوركت جهودكم!" },
+            { id: "2", title: "2. تفوق ملحوظ في الملاحظة واستنتاج", text: "🔬 **تفوق ملحوظ في الملاحظة العلمية** 🔬\nعزيزي ولي الأمر، أظهر ابنكم اليوم مهارات دقيقة في الملاحظة والتجريب واستنباط النتائج. أحسنت صنعاً!" },
+            { id: "3", title: "3. دقة وإتقان في المفاهيم العلمية", text: "🌱 **دقة وإتقان في المفاهيم والعلوم** 🌱\nعزيزي ولي الأمر، تميز ابنكم اليوم باستيعابه العميق للحقائق العلمية وتوظيفها بذكاء. بارك الله في جهوده!" },
+            { id: "4", title: "4. مشاركة نشطة وفعالة في حصة العلوم", text: "✋ **مشاركة نشطة وتفاعل علمي متميز** ✋\nعزيزي ولي الأمر، تميز ابنكم اليوم بحرصه العالي ومشاركته النشطة وإجاباته العلمية الموفقة داخل الصف." },
+            { id: "5", title: "5. حصيلة استكشافية وتجارب ممتازة", text: "🧠 **حصيلة استكشافية وتجارب ممتازة** 🧠\nعزيزي ولي الأمر، أبدع ابنكم اليوم في تنفيذ التجارب الاستهلالية والاستكشافية بمهارة عالية. مبروك له!" },
+            { id: "6", title: "6. تنظيم رائع للدفتر وواجبات مرتبة بدقة", text: "📝 **تنظيم رائع للواجبات والأنشطة** 📝\nعزيزي ولي الأمر، نشكر لكم متابعتكم المنزلية الواعية. لقد كان واجب ابنكم اليوم منظماً، دقيقاً، ومرتباً للغاية." },
+            { id: "7", title: "7. حل ممتاز للتدريبات والتقويم التكويني", text: "✍️ **حل ممتاز للتقويم والتدريبات**\nعزيزي ولي الأمر، تميز أداء ابنكم اليوم بحل أسئلة التقويم والتدريبات العلمية بدقة عالية. دمت متميزاً يا بطل!" },
+            { id: "8", title: "8. اهتمام رائع بالبيئة ومخلوقات الله", text: "🌍 **اهتمام رائع بالبيئة والمحيط**\nعزيزي ولي الأمر، أظهر ابنكم اليوم شغفاً واهتماماً لافتاً بدراسة الكائنات الحية وعناصر البيئة من حوله." },
+            { id: "9", title: "9. مشروع علمي متميز ومبتكر ومتقن", text: "🛠️ **مشروع علمي متميز ومبتكر ومتقن**\nعزيزي ولي الأمر، قدم ابنكم اليوم مشروعاً علمياً رائعاً ومنظماً ينم عن تفكير إبداعي ومهارة عالية." },
+            { id: "10", title: "10. اجتهاد وحرص عالٍ على إتقان مهارات العلوم", text: "⭐ **اجتهاد وحرص عالٍ على إتقان العلوم**\nعزيزي ولي الأمر، إن حرص ابنكم المستمر على الاستكشاف والتعلم في مادة العلوم محل تقديرنا الدائم." }
         ];
 
         let customMotivations = JSON.parse(localStorage.getItem('mansour_custom_motivations_science_v5')) || defaultMotivations;
@@ -1211,7 +1064,7 @@
                 { chapter: "الوحدة 1: النباتات من حولنا", title: "أجزاء النباتات", desc: "دراسة الجذور، الساق، الأوراق، والزهور ودور كل منها في حياة النبات." },
                 { chapter: "الوحدة 1: النباتات من حولنا", title: "النباتات تنتج نباتات جديدة", desc: "التعرف على البذور وكيفية نموها لتصبح نباتات جديدة." },
                 { chapter: "الوحدة 2: الحيوانات من حولنا", title: "أماكن عيش الحيوانات", desc: "استكشاف الموائل الطبيعية المختلفة للحيوانات (الغابة، الصحراء، الماء)." },
-                { chapter: "الوحدة 2: الحيوانات من حولنا", title: "الحيوانات تنمو وتتغير", desc: "دراسة دورات حياة الحيوانات وكيف تتغير صغار الحيوانات عن آبائها." },
+                { chapter: "الوحدة 2: الحيوانات من حولنا", title: "الحيوانات تنمو وتتغير", desc: "دراسة دورات حياة الحيوانات وكيف تتغير صغار الحيوانات عن أبائها." },
                 { chapter: "الوحدة 3: أرضنا ومواردها", title: "ما الأرض؟ وماذا يوجد عليها؟", desc: "التعرف على اليابسة والماء والصخور المكونة لسطح الأرض." },
                 { chapter: "الوحدة 3: أرضنا ومواردها", title: "الماء والهواء", desc: "أهمية الماء والهواء لحياة الكائنات الحية وطرق المحافظة عليها." },
                 { chapter: "الوحدة 4: الطقس والفصول", title: "حالات الطقس المختلفة", desc: "ملاحظة الطقس اليومي (مشمس، ممطر، عاصف، بارد) وأثره على ملابسنا." },
@@ -1234,14 +1087,14 @@
                 { chapter: "الوحدة 3: المخلوقات الحية تنمو وتتغير", title: "أجهزة جسم الإنسان", desc: "التعرف على الجهاز الهيكلي، العضلي، والهضمي والدورة الدموية ووظائفها الأساسية." },
                 { chapter: "الوحدة 3: المخلوقات الحية تنمو وتتغير", title: "الصحة الغذائية والرياضية", desc: "أهمية الغذاء المتوازن وممارسة الرياضة للحفاظ على صحة الأجسام وقوتها." },
                 { chapter: "الوحدة 4: الطاقة والكهرباء والمغناطيسية", title: "الدوائر الكهربائية البسيطة", desc: "كيف يضيء المصباح الكهربائي وتوصيل الدوائر الكهربائية بأمان." },
-                { chapter: "الوحدة 4: الطاقة والكهرباء والمغناطيسية", title: "المغناطيس وقوته", desc: "استكشاف أقطاب المغناطيس وتنافرها وتجاذبها والمواد التي تنجذب إليه." }
+                { chapter: "الوحدة 4: الطاقة والكهرباء والمغناطيسية", title: "المغناطيس وقوته", desc: "استكشاف أقطاب المغناطيس وتنافرها وتجاذبها والم المواد التي تنجذب إليه." }
             ],
             "الرابع الابتدائي": [
                 { chapter: "الوحدة 1: ممالك المخلوقات الحية", title: "الخلايا وتصنيف المخلوقات الحية", desc: "دراسة الخلايا وأساسيات تصنيف المخلوقات الحية في ممالكها." },
                 { chapter: "الوحدة 2: المملكة الحيوانية", title: "الحيوانات اللافقارية والفقارية وأجهزتها", desc: "التعرف على خصائص الحيوانات اللافقارية والفقارية وأهم أجهزة أجسامها." },
                 { chapter: "الوحدة 3: الأنظمة البيئية", title: "استكشاف والعلاقات والتغيرات في الأنظمة البيئية", desc: "دراسة مقدمة النظم البيئية، شبكات العلاقات الغذائية والتغيرات البيئية." },
                 { chapter: "الوحدة 4: الأمراض والعدوى", title: "الأمراض المعدية وطرق انتقالها", desc: "مفاهيم الأمراض وكيفية الوقاية منها وانتقال العدوى." },
-                { chapter: "الوحدة 5: التغذية والصحة", title: "الغذاء المتوازن والمحافظة على الصحة", desc: "دراسة الاحتياجات الغذائية السليمة والعناية بالصحة العامة." },
+                { chapter: "الوحدة 5: التغذية والصحة", title: "الغذاء المتوازن والمحافظة على الصحة", desc: "دراسة الاحتياجات الغذائية السليمة والعناية بالصحّة العامة." },
                 { chapter: "الوحدة 6: المادة والقوى والطاقة", title: "المادة وخصائصها والقوى والحركة", desc: "القياس، حالات المادة، المخاليط، القوى والحركة، والطاقة (الحرارة)." }
             ],
             "الخامس الابتدائي": [
@@ -1266,13 +1119,11 @@
         function getStorageKeyForStudents() { return 'mansour_students_science_' + currentGrade + '_v5'; }
         function getStorageKeyForStatus() { return 'mansour_lesson_status_science_' + currentGrade + '_v5'; }
         function getStorageKeyForMastery() { return 'mansour_lesson_mastery_science_' + currentGrade + '_v5'; }
-        function getStorageKeyForAutoGrading() { return 'mansour_auto_grading_' + currentGrade + '_v5'; }
 
         let lessons = JSON.parse(localStorage.getItem(getStorageKeyForLessons())) || gradeScienceData[currentGrade];
         let students = JSON.parse(localStorage.getItem(getStorageKeyForStudents())) || [];
         let lessonStatus = JSON.parse(localStorage.getItem(getStorageKeyForStatus())) || {};
         let lessonMastery = JSON.parse(localStorage.getItem(getStorageKeyForMastery())) || {};
-        let autoGradingData = JSON.parse(localStorage.getItem(getStorageKeyForAutoGrading())) || {};
 
         function checkBackupReminder() {
             const lastBackup = localStorage.getItem('mansour_last_backup_date');
@@ -1293,7 +1144,6 @@
             students = JSON.parse(localStorage.getItem(getStorageKeyForStudents())) || [];
             lessonStatus = JSON.parse(localStorage.getItem(getStorageKeyForStatus())) || {};
             lessonMastery = JSON.parse(localStorage.getItem(getStorageKeyForMastery())) || {};
-            autoGradingData = JSON.parse(localStorage.getItem(getStorageKeyForAutoGrading())) || {};
 
             activeQueryClass = '';
             selectedStudentIndex = '';
@@ -1301,276 +1151,12 @@
             document.getElementById('studentSearchInput').value = '';
             document.getElementById('bulkSendPanel').style.display = 'none';
 
-            document.getElementById('curriculumTitle').textContent = `📚 دليل مقرر العلوم - ${currentGrade} (المنهج السعودي المعتمد) وتتبع التنفيذ`;
+            document.getElementById('curriculumTitle').textContent = `📚 دليل مقرر العلوم - ${currentGrade}`;
 
             renderLessons();
             renderMasteryDropdowns();
-            initExamModelsDropdowns();
-            renderClassesQuery();
             render();
             showToast(`🔄 تم الانتقال إلى بيانات ${currentGrade}`);
-        }
-
-        function initExamModelsDropdowns() {
-            onExamCategoryChange();
-        }
-
-        function onExamCategoryChange() {
-            const category = document.getElementById('examCategorySelect').value;
-            const modelSelect = document.getElementById('examModelSelect');
-            modelSelect.innerHTML = '';
-
-            let count = (category === 'prepost') ? 4 : 10;
-            let labelPrefix = (category === 'prepost') ? 'النموذج القبلي/البعدي رقم ' : 'النموذج الفتري رقم ';
-
-            for(let i = 1; i <= count; i++) {
-                modelSelect.innerHTML += `<option value="${category}_${i}">${labelPrefix} ${i}</option>`;
-            }
-            renderSpecificTestModel();
-        }
-
-        function renderSpecificTestModel() {
-            document.getElementById('printTestGrade').textContent = currentGrade;
-            const modelVal = document.getElementById('examModelSelect').value || 'prepost_1';
-            const parts = modelVal.split('_');
-            const cat = parts[0];
-            const num = parts[1];
-
-            const titleBadge = document.getElementById('printTestModelBadge');
-            titleBadge.textContent = (cat === 'prepost') ? `[اختبار قبلي/بعدي - النموذج ${num}]` : `[اختبار فتري - النموذج ${num}]`;
-
-            const listContainer = document.getElementById('printTestQuestionsList');
-            let qHTML = `<div style="margin-bottom: 6px; font-weight: bold; background: rgba(0,0,0,0.04); padding: 5px; font-size:11px; text-align:center;">مستهدف التقييم: ${currentGrade} - النموذج رقم (${num}) - 10 أسئلة موزعة بمسافات واسعة لتقليل تداخل التظليل وأخطاء القراءة</div>`;
-
-            const seedOffset = Number(num) || 1;
-            const simplifiedQuestionsPool = [
-                {
-                    q: "السؤال 1: أي مما يلي يعتبر من الحاجات الأساسية للمخلوقات الحية لكي تعيش؟",
-                    opts: ["أ) الماء والهواء والغذاء", "ب) الألعاب", "ج) السيارات", "د) الهواتف"]
-                },
-                {
-                    q: "السؤال 2: أي جزء من النبات يمتص الماء والأملاح المعدنية من التربة؟",
-                    opts: ["أ) الأوراق", "ب) الجذور", "ج) الأزهار", "د) الثمار"]
-                },
-                {
-                    q: "السؤال 3: ما هي الحالة التي تكون عليها المياه داخل جدول الماء أو البحر؟",
-                    opts: ["أ) صلبة", "ب) غازية", "ج) سائلة", "د) جامدة"]
-                },
-                {
-                    q: "السؤال 4: كيف تنتقل الأجسام أو تلعب بالكرة بدفعها أو سحبها؟",
-                    opts: ["أ) باستخدام القوة", "ب) بالصوت", "ج) بالظل", "د) بالضوء"]
-                },
-                {
-                    q: "السؤال 5: أي من الحواس الخمس تستخدم لمعرفة ألوان الأجسام والزهور؟",
-                    opts: ["أ) حاسة السمع", "ب) حاسة البصر", "ج) حاسة الشم", "د) حاسة اللمس"]
-                },
-                {
-                    q: "السؤال 6: ما هو المصدر الطبيعي الرئيسي للضوء والدفء على كوكب الأرض؟",
-                    opts: ["أ) القمر", "ب) النجوم", "ج) الشمس", "د) المصباح"]
-                },
-                {
-                    q: "السؤال 7: ماذا يسمى الغلاف الجوي المحيط بكوكب الأرض ويتكون من غازات نتنفسها؟",
-                    opts: ["أ) الماء", "ب) الهواء", "ج) الصخور", "د) الرمل"]
-                },
-                {
-                    q: "السؤال 8: أي من الحيوانات التالية تستطيع العيش في الماء وتتفسر بواسطة الغلاصم؟",
-                    opts: ["أ) العصفور", "ب) الأسماك", "ج) الجمل", "د) القط"]
-                },
-                {
-                    q: "السؤال 9: عندما ننظر إلى السماء في فصل الصيف، كيف يكون حالة الطقس الغالبة؟",
-                    opts: ["أ) مشمس وحار", "ب) ثلجي وبارد", "ج) ممطر بغزارة", "د) عواصف"]
-                },
-                {
-                    q: "السؤال 10: ما هي أهمية غسل اليدين بالماء والصابون بانتظام؟",
-                    opts: ["أ) لتجنب الأوساخ والأمراض وحماية الجسم", "ب) لإضاعة الوقت", "ج) لتلوين الأصابع", "د) لجعل اليدين باردتين"]
-                }
-            ];
-
-            simplifiedQuestionsPool.forEach((item, idx) => {
-                let optsCopy = [...item.opts];
-                if(seedOffset % 2 === 0 && idx % 2 === 0) {
-                    let temp = optsCopy[0];
-                    optsCopy[0] = optsCopy[1];
-                    optsCopy[1] = temp;
-                }
-
-                qHTML += `
-                    <div style="margin-bottom: 8px; padding: 6px 8px; background: #ffffff; border-radius: 4px; border: 1px solid #cbd5e1; border-right: 4px solid var(--secondary); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-                        <div style="flex: 1; min-width: 65%;">
-                            <strong style="font-size: 12px; display:block; margin-bottom:4px; color:#000;">${item.q}</strong>
-                            <div style="display:flex; flex-wrap:wrap; gap:10px; font-size:11px; opacity:0.95;">
-                                <span style="display:inline-block;">${optsCopy[0]}</span>
-                                <span style="display:inline-block;">${optsCopy[1]}</span>
-                                <span style="display:inline-block;">${optsCopy[2]}</span>
-                                <span style="display:inline-block;">${optsCopy[3]}</span>
-                            </div>
-                        </div>
-                        <div style="display:flex; gap:10px; align-items:center; background:#f8fafc; padding:4px 10px; border-radius:6px; border:1px solid #94a3b8;">
-                            <span class="bubble-option"><span class="bubble-circle">أ</span></span>
-                            <span class="bubble-option"><span class="bubble-circle">ب</span></span>
-                            <span class="bubble-option"><span class="bubble-circle">ج</span></span>
-                            <span class="bubble-option"><span class="bubble-circle">د</span></span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            listContainer.innerHTML = qHTML;
-        }
-
-        let answerKey = ['أ', 'ب', 'ج', 'أ', 'ب', 'ج', 'ب', 'ب', 'أ', 'أ'];
-
-        function updateAnswerKeyInputs() {
-            const totalQ = 10;
-            const container = document.getElementById('answerKeyContainer');
-            container.innerHTML = `<span style="font-size:11px; font-weight:bold; width:100%; margin-bottom:4px; color:var(--primary);">حدد الإجابة الصحيحة لكل سؤال من الـ 10 أسئلة (أ، ب، ج، د):</span>`;
-            
-            for(let i=0; i<totalQ; i++) {
-                if(!answerKey[i]) answerKey[i] = 'أ';
-                container.innerHTML += `
-                    <div style="display:inline-flex; align-items:center; gap:3px; margin:2px;">
-                        <span style="font-size:11px;">س${i+1}:</span>
-                        <select id="key_q_${i}" onchange="saveAnswerKey(${i}, this.value)" style="padding:3px; font-size:11px;">
-                            <option value="أ" ${answerKey[i]==='أ'?'selected':''}>أ</option>
-                            <option value="ب" ${answerKey[i]==='ب'?'selected':''}>ب</option>
-                            <option value="ج" ${answerKey[i]==='ج'?'selected':''}>ج</option>
-                            <option value="د" ${answerKey[i]==='د'?'selected':''}>د</option>
-                        </select>
-                    </div>
-                `;
-            }
-            renderAutoGradingTable();
-        }
-
-        function saveAnswerKey(index, val) {
-            answerKey[index] = val;
-            renderAutoGradingTable();
-        }
-
-        function updateAutoGradingClassSelect(classesSet) {
-            const select = document.getElementById('examTargetClassForGrading');
-            const currentVal = select.value;
-            select.innerHTML = '<option value="">-- اختر الصف لتطبيق التصحيح --</option>';
-            classesSet.forEach(cName => {
-                select.innerHTML += `<option value="${cName}">${cName}</option>`;
-            });
-            if(classesSet.has(currentVal)) select.value = currentVal;
-            updateAnswerKeyInputs();
-        }
-
-        function renderAutoGradingTable() {
-            const selectedClass = document.getElementById('examTargetClassForGrading').value;
-            const tbody = document.getElementById('autoGradingTbody');
-            tbody.innerHTML = '';
-
-            if(!selectedClass) {
-                tbody.innerHTML = `<tr><td colspan="5" style="padding: 12px; opacity: 0.7;">الرجاء اختيار الصف الدراسي من القائمة أعلاه لعرض الأوراق وتصحيحها.</td></tr>`;
-                document.getElementById('statAvgScore').textContent = '0';
-                document.getElementById('statPassedCount').textContent = '0';
-                document.getElementById('statMasteryRate').textContent = '0%';
-                return;
-            }
-
-            const classStudents = students.filter(s => (s.classCustom || currentGrade) === selectedClass);
-            if(classStudents.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="padding: 12px; opacity: 0.7;">لا توجد طلاب مسجلون في هذا الصف.</td></tr>`;
-                return;
-            }
-
-            let totalScoreSum = 0;
-            let passedCount = 0;
-            const totalQ = 10;
-
-            classStudents.forEach(s => {
-                const globalIdx = students.indexOf(s);
-                if(!autoGradingData[globalIdx]) {
-                    autoGradingData[globalIdx] = answerKey.join(',');
-                }
-
-                let studentAnswers = autoGradingData[globalIdx].split(',');
-                let score = 0;
-                for(let i=0; i<totalQ; i++) {
-                    if(studentAnswers[i] && studentAnswers[i].trim() === answerKey[i]) {
-                        score++;
-                    }
-                }
-
-                totalScoreSum += score;
-                const isPassed = score >= Math.ceil(totalQ / 2);
-                if(isPassed) passedCount++;
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${s.name}</strong></td>
-                    <td><span class="class-badge">${s.classCustom || currentGrade}</span></td>
-                    <td><input type="text" value="${autoGradingData[globalIdx]}" placeholder="أ,ب,ج,أ,ب,أ,ب,ج,أ,ب" style="width:180px; text-align:center; padding:4px;" oninput="updateStudentAnswers(${globalIdx}, this.value)"></td>
-                    <td><strong style="color: ${isPassed ? 'var(--success)' : 'var(--danger)'};">${score} / ${totalQ} (${isPassed ? 'اجتياز' : 'إخفاق'})</strong></td>
-                    <td class="no-print">
-                        <button class="btn-action btn-info" onclick="autoFillExactAnswers(${globalIdx})" style="padding:3px 6px; font-size:10px;" title="مطابقة تامة 100% مع نموذج الإجابة">✨ مطابقة تامة</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            const avg = (totalScoreSum / classStudents.length).toFixed(1);
-            const mastery = Math.round((passedCount / classStudents.length) * 100);
-
-            document.getElementById('statAvgScore').textContent = `${avg} / ${totalQ}`;
-            document.getElementById('statPassedCount').textContent = `${passedCount} من ${classStudents.length}`;
-            document.getElementById('statMasteryRate').textContent = `${mastery}%`;
-        }
-
-        function updateStudentAnswers(globalIdx, val) {
-            autoGradingData[globalIdx] = val;
-            localStorage.setItem(getStorageKeyForAutoGrading(), JSON.stringify(autoGradingData));
-            renderAutoGradingTable();
-        }
-
-        function autoFillExactAnswers(globalIdx) {
-            autoGradingData[globalIdx] = answerKey.join(',');
-            localStorage.setItem(getStorageKeyForAutoGrading(), JSON.stringify(autoGradingData));
-            renderAutoGradingTable();
-            showToast('✨ تم مطابقة ورقة الطالب بدقة تامة 100% مع نموذج الإجابة!');
-        }
-
-        function autoCorrectAllClassStudents() {
-            const selectedClass = document.getElementById('examTargetClassForGrading').value;
-            if(!selectedClass) {
-                alert('الرجاء اختيار الصف لتطبيق التصحيح الفوري.');
-                return;
-            }
-            const classStudents = students.filter(s => (s.classCustom || currentGrade) === selectedClass);
-            if(classStudents.length === 0) {
-                alert('لا توجد طلاب في هذا الصف.');
-                return;
-            }
-
-            classStudents.forEach(s => {
-                const globalIdx = students.indexOf(s);
-                autoGradingData[globalIdx] = answerKey.join(',');
-            });
-            localStorage.setItem(getStorageKeyForAutoGrading(), JSON.stringify(autoGradingData));
-            renderAutoGradingTable();
-            showToast('⚡ تمت معالجة وتصحيح أوراق كافة طلاب الصف بدقة تامة بنجاح!');
-        }
-
-        function handleCameraScan(event) {
-            const file = event.target.files[0];
-            if(!file) return;
-            const selectedClass = document.getElementById('examTargetClassForGrading').value;
-            if(!selectedClass) {
-                alert('الرجاء اختيار الصف أولاً قبل استخدام ماسح الكاميرا.');
-                event.target.value = '';
-                return;
-            }
-            const classStudents = students.filter(s => (s.classCustom || currentGrade) === selectedClass);
-            if(classStudents.length > 0) {
-                const randomStudent = classStudents[Math.floor(Math.random() * classStudents.length)];
-                const globalIdx = students.indexOf(randomStudent);
-                autoFillExactAnswers(globalIdx);
-                alert(`📸 تم مسح ورقة الإجابة المطبوعة على A4 بنجاح للـطالب (${randomStudent.name})!\nتم استيعاب التظليل الواسع ومطابقته بدقة تامة 100%.`);
-            }
-            event.target.value = '';
         }
 
         function onCurriculumDropdownChange(idx) {
@@ -1581,7 +1167,7 @@
             }
             const l = lessons[idx];
             box.style.display = 'block';
-            box.innerHTML = `<strong>${l.chapter}</strong><br><span style="color:var(--primary); font-size:14px;">${l.title}</span><br><br>${l.desc}`;
+            box.innerHTML = `<strong>${l.chapter}</strong><br><span style="color:var(--primary); font-size:15px;">${l.title}</span><br><br>${l.desc}`;
         }
 
         function renderLessons() {
@@ -1592,10 +1178,10 @@
             selectMotivation.innerHTML = '<option value="">-- اختر الرسالة التشجيعية --</option>';
 
             const bulkSelectHomeworkLesson = document.getElementById('bulkSelectHomeworkLesson');
-            bulkSelectHomeworkLesson.innerHTML = '<option value="">-- اختر الدرس لتحديد الواجب المراد إرساله --</option>';
+            bulkSelectHomeworkLesson.innerHTML = '<option value="">-- اختر الدرس لتحديد الواجب --</option>';
 
             const curriculumDropdown = document.getElementById('curriculumDropdownSelect');
-            curriculumDropdown.innerHTML = '<option value="">-- اختر الدرس أو الوحدة من القائمة المنسدلة للاستعراض --</option>';
+            curriculumDropdown.innerHTML = '<option value="">-- اختر الدرس أو الوحدة للاستعراض --</option>';
 
             let lessonsGroup = '';
             let executedCount = 0;
@@ -1622,7 +1208,7 @@
                         <button class="status-toggle-btn ${isExecuted ? 'done' : 'pending'}" onclick="toggleLessonStatus(${idx})">
                             ${isExecuted ? '✅ منفذ' : '⏳ قيد الانتظار'}
                         </button>
-                        <button class="btn-action btn-danger" onclick="deleteLesson(${idx})">🗑️</button>
+                        <button class="btn-action btn-danger" onclick="deleteLesson(${idx})">🗑️ حذف</button>
                     </div>
                 `;
                 mainLessonsContainer.appendChild(card);
@@ -1630,19 +1216,21 @@
 
             bulkSelectHomeworkLesson.innerHTML += lessonsGroup;
 
+            let motivGroup = '<optgroup label="🌟 الرسائل التشجيعية والتحفيزية">';
             customMotivations.forEach((m, idx) => { 
+                motivGroup += `<option value="motiv-${idx}">${m.title}</option>`; 
                 selectMotivation.innerHTML += `<option value="motiv-${idx}">${m.title}</option>`;
             });
+            motivGroup += '</optgroup>';
 
             document.getElementById('totalExecutedLessons').textContent = `${executedCount} / ${lessons.length}`;
             renderMasteryDropdowns();
-            initExamModelsDropdowns();
         }
 
         function renderMasteryDropdowns() {
             const masterySelect = document.getElementById('masteryLessonSelect');
             const currentVal = masterySelect.value;
-            masterySelect.innerHTML = '<option value="">-- اختر الدرس لتحديد حالة الإتقان للطلاب --</option>';
+            masterySelect.innerHTML = '<option value="">-- اختر الدرس لتحديد حالة الإتقان --</option>';
             lessons.forEach((l, idx) => {
                 masterySelect.innerHTML += `<option value="${idx}">[${l.chapter}] ${l.title}</option>`;
             });
@@ -1674,7 +1262,7 @@
 
         function addBatchLessons() {
             const textData = document.getElementById('bulkLessonsInput').value.trim();
-            if(!textData) { alert('الرجاء إدخال بيانات الدروس في الحقل المخصص.'); return; }
+            if(!textData) { alert('الرجاء إدخال بيانات الدروس.'); return; }
 
             const lines = textData.split('\n');
             let addedCount = 0;
@@ -1703,7 +1291,7 @@
                 localStorage.setItem(getStorageKeyForLessons(), JSON.stringify(lessons));
                 document.getElementById('bulkLessonsInput').value = '';
                 renderLessons();
-                showToast(`📥 تمت إضافة (${addedCount}) دروس دفعة واحدة بنجاح!`);
+                showToast(`📥 تمت إضافة (${addedCount}) دروس بنجاح!`);
             } else {
                 alert('لم يتم العثور على صيغة دروس صحيحة.');
             }
@@ -1739,13 +1327,9 @@
 
             let masteryPercentage = totalPossibleMastery > 0 ? Math.round((achievedMastery / totalPossibleMastery) * 100) : 0;
 
-            let sumPart = 0;
-            let sumHw = 0;
-            let sumAbs = 0;
-            let sumProj = 0;
-            let sumMsg = 0;
+            let sumPart = 0, sumHw = 0, sumAbs = 0, sumProj = 0, sumMsg = 0;
 
-            students.forEach((s, sIdx) => {
+            students.forEach((s) => {
                 sumPart += Number(s.participation) || 0;
                 sumHw += Number(s.homework) || 0;
                 sumAbs += Number(s.absence) || 0;
@@ -1816,7 +1400,7 @@
             const pageData = filtered.slice(startIdx, startIdx + rowsPerPage);
 
             if(pageData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="padding: 12px; opacity: 0.7;">لا توجد بيانات طلاب مسجلة حالياً.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="padding: 15px; opacity: 0.7;">لا توجد بيانات طلاب.</td></tr>`;
                 document.getElementById('paginationInfo').textContent = `عرض 0 من 0`;
                 document.getElementById('pageIndicator').textContent = `1 / 1`;
                 return;
@@ -1828,11 +1412,11 @@
                 tr.innerHTML = `
                     <td><strong>${s.name}</strong></td>
                     <td><span class="class-badge">${s.classCustom || currentGrade}</span></td>
-                    <td><input type="text" maxlength="10" value="${s.phone || ''}" style="width:90px; text-align:center; padding:4px;" oninput="updateStudentPhone(${globalIndex}, this.value)" placeholder="05xxxxxxxx"></td>
-                    <td><input type="number" value="${s.absence}" min="0" style="width:40px; text-align:center; padding:4px;" oninput="updateStudentField(${globalIndex}, 'absence', this.value)"></td>
-                    <td><input type="number" value="${s.participation}" min="0" style="width:40px; text-align:center; padding:4px;" oninput="updateStudentField(${globalIndex}, 'participation', this.value)"></td>
-                    <td><input type="number" value="${s.homework}" min="0" style="width:40px; text-align:center; padding:4px;" oninput="updateStudentField(${globalIndex}, 'homework', this.value)"></td>
-                    <td><input type="number" value="${s.projects}" min="0" style="width:40px; text-align:center; padding:4px;" oninput="updateStudentField(${globalIndex}, 'projects', this.value)"></td>
+                    <td><input type="text" maxlength="10" value="${s.phone || ''}" style="width:80px; text-align:center; padding:2px;" oninput="updateStudentPhone(${globalIndex}, this.value)" placeholder="05xxxxxxxx"></td>
+                    <td><input type="number" value="${s.absence}" min="0" style="width:35px; text-align:center; padding:2px;" oninput="updateStudentField(${globalIndex}, 'absence', this.value)"></td>
+                    <td><input type="number" value="${s.participation}" min="0" style="width:35px; text-align:center; padding:2px;" oninput="updateStudentField(${globalIndex}, 'participation', this.value)"></td>
+                    <td><input type="number" value="${s.homework}" min="0" style="width:35px; text-align:center; padding:2px;" oninput="updateStudentField(${globalIndex}, 'homework', this.value)"></td>
+                    <td><input type="number" value="${s.projects}" min="0" style="width:35px; text-align:center; padding:2px;" oninput="updateStudentField(${globalIndex}, 'projects', this.value)"></td>
                     <td>${s.messages || 0}</td>
                     <td class="no-print"><button class="btn-action btn-danger" onclick="deleteStudent(${globalIndex})">حذف</button></td>
                 `;
@@ -1911,7 +1495,6 @@
             updateExamClassSelect(classesSet);
             updateMasteryClassSelect(classesSet);
             updateBulkTargetSelect(classesSet);
-            updateAutoGradingClassSelect(classesSet);
         }
 
         function filterByClass(cName) {
@@ -1928,14 +1511,14 @@
                 localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(students));
                 if(activeQueryClass === cName) activeQueryClass = '';
                 render();
-                showToast('🗑️ تمت إزالة الصف وطلاّبه بنجاح!');
+                showToast('🗑️ تمت إزالة الصف بنجاح!');
             }
         }
 
         function updateExamClassSelect(classesSet) {
             const select = document.getElementById('examClassSelect');
             const currentVal = select.value;
-            select.innerHTML = '<option value="">-- اختر الصف لعرض سجل الاختبارات --</option>';
+            select.innerHTML = '<option value="">-- اختر الصف لعرض وسجل الاختبارات --</option>';
             classesSet.forEach(cName => {
                 select.innerHTML += `<option value="${cName}">${cName}</option>`;
             });
@@ -1969,7 +1552,7 @@
             tbody.innerHTML = '';
 
             if(lessonIdx === "") {
-                tbody.innerHTML = `<tr><td colspan="4" style="padding: 12px; opacity: 0.7;">الرجاء اختيار الدرس من القائمة أعلاه لعرض حالات إتقان الطلاب.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="padding: 15px; opacity: 0.7;">الرجاء اختيار الدرس من القائمة أعلاه.</td></tr>`;
                 summaryBox.style.display = 'none';
                 return;
             }
@@ -1980,7 +1563,7 @@
             }
 
             if(filteredStudents.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="padding: 12px; opacity: 0.7;">لا توجد بيانات طلاب مسجلة.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="padding: 15px; opacity: 0.7;">لا توجد بيانات طلاب مسجلة.</td></tr>`;
                 summaryBox.style.display = 'none';
                 return;
             }
@@ -2002,12 +1585,12 @@
                     <td><span class="class-badge">${s.classCustom || currentGrade}</span></td>
                     <td>
                         <span style="font-weight:bold; color: ${isMastered ? 'var(--success)' : 'var(--danger)'};">
-                            ${isMastered ? '✅ متقن' : '⚠️ بحاجة مراجعة'}
+                            ${isMastered ? '✅ متقن' : '⚠️ مراجعة'}
                         </span>
                     </td>
                     <td class="no-print">
                         <button class="mastery-btn ${isMastered ? 'mastered' : 'review'}" onclick="toggleStudentMastery(${globalIdx}, ${lessonIdx})">
-                            ${isMastered ? 'تحويل: مراجعة' : 'تحويل: متقن'}
+                            ${isMastered ? 'تحويل لـ مراجعة' : 'تحويل لـ متقن'}
                         </button>
                     </td>
                 `;
@@ -2036,14 +1619,14 @@
             tbody.innerHTML = '';
 
             if(!selectedClass) {
-                tbody.innerHTML = `<tr><td colspan="5" style="padding: 12px; opacity: 0.7;">الرجاء اختيار الصف الدراسي من القائمة أعلاه لعرض رصد واختبارات الطلاب.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="padding: 15px; opacity: 0.7;">الرجاء اختيار الصف الدراسي من القائمة أعلاه.</td></tr>`;
                 analysisBox.style.display = 'none';
                 return;
             }
 
             const classStudents = students.filter(s => (s.classCustom || currentGrade) === selectedClass);
             if(classStudents.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="padding: 12px; opacity: 0.7;">لا توجد طلاب مسجلون في هذا الصف.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="padding: 15px; opacity: 0.7;">لا يوجد طلاب مسجلون في هذا الصف.</td></tr>`;
                 analysisBox.style.display = 'none';
                 return;
             }
@@ -2060,10 +1643,10 @@
                 tr.innerHTML = `
                     <td><strong>${s.name}</strong></td>
                     <td><span class="class-badge">${s.classCustom || currentGrade}</span></td>
-                    <td><input type="text" inputmode="numeric" pattern="[0-9]*" value="${s.exam1 !== undefined ? s.exam1 : 0}" style="width:55px; text-align:center; padding:4px;" oninput="updateExamScore(${globalIndex}, 'exam1', this.value)"></td>
-                    <td><input type="text" inputmode="numeric" pattern="[0-9]*" value="${s.exam2 !== undefined ? s.exam2 : 0}" style="width:55px; text-align:center; padding:4px;" oninput="updateExamScore(${globalIndex}, 'exam2', this.value)"></td>
+                    <td><input type="text" inputmode="numeric" pattern="[0-9]*" value="${s.exam1 !== undefined ? s.exam1 : 0}" style="width:40px; text-align:center; padding:2px;" oninput="updateExamScore(${globalIndex}, 'exam1', this.value)"></td>
+                    <td><input type="text" inputmode="numeric" pattern="[0-9]*" value="${s.exam2 !== undefined ? s.exam2 : 0}" style="width:40px; text-align:center; padding:2px;" oninput="updateExamScore(${globalIndex}, 'exam2', this.value)"></td>
                     <td class="no-print">
-                        <a href="https://wa.me/966${s.phone ? s.phone.replace(/^0+/, '') : ''}?text=${encodeURIComponent('عزيزي ولي أمر الطالب ' + s.name + '، نود إفادتكم بدرجات اختبارات مادة العلوم:\n- اختبار الفترة الأولى: ' + (s.exam1 || 0) + '/20\n- اختبار الفترة الثانية: ' + (s.exam2 || 0) + '/20\nمع تمنياتنا له بدوام التوفيق والنجاح.')}" target="_blank" class="whatsapp-btn" style="padding:3px 6px; font-size:10px;" onclick="incrementMessageCount(${globalIndex})">📤 إرسال</a>
+                        <a href="https://wa.me/966${s.phone ? s.phone.replace(/^0+/, '') : ''}?text=${encodeURIComponent('عزيزي ولي أمر الطالب ' + s.name + '، نود إفادتكم بدرجات اختبارات مادة العلوم:\n- اختبار الفترة الأولى: ' + (s.exam1 || 0) + '/20\n- اختبار الفترة الثانية: ' + (s.exam2 || 0) + '/20\nمع تمنياتنا له بدوام التوفيق والنجاح.')}" target="_blank" class="whatsapp-btn" style="padding:4px 6px; font-size:11px; margin-top:0;" onclick="incrementMessageCount(${globalIndex})">📤 إرسال</a>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -2142,7 +1725,7 @@
             document.body.appendChild(a);
             a.click();
             a.remove();
-            showToast('☁️ تم تصدير ملف متوافق مع Google Sheets بنجاح!');
+            showToast('☁️ تم التصدير بنجاح!');
         }
 
         function importExcel(event) {
@@ -2159,7 +1742,7 @@
                     const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
                     if(!jsonData || jsonData.length === 0) {
-                        alert('ملف الإكسل فارغ أو غير مطابق.');
+                        alert('ملف الإكسل فارغ أو غير مطابق للهيكلة المطلوبة.');
                         return;
                     }
 
@@ -2188,10 +1771,10 @@
 
                     localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(students));
                     render();
-                    showToast(`📂 تمت استعادة واستيراد (${count}) طالب بنجاح!`);
+                    showToast(`📂 تمت استعادة (${count}) طالب بنجاح!`);
                 } catch(err) {
                     console.error(err);
-                    alert('خطأ أثناء قراءة ملف الإكسل.');
+                    alert('حدث خطأ أثناء قراءة ملف الإكسل.');
                 } finally {
                     event.target.value = '';
                 }
@@ -2205,18 +1788,17 @@
                 lessons: lessons,
                 lessonStatus: lessonStatus,
                 lessonMastery: lessonMastery,
-                autoGradingData: autoGradingData,
                 customMotivations: customMotivations
             };
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupPackage));
             const dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", `سجل_العلوم_${currentGrade}_full_backup.json`);
+            dlAnchor.setAttribute("download", `سجل_العلوم_${currentGrade}_backup.json`);
             document.body.appendChild(dlAnchor);
             dlAnchor.click();
             dlAnchor.remove();
             localStorage.setItem('mansour_last_backup_date', Date.now().toString());
-            showToast('💾 تم تصدير النسخة الاحتياطية الشاملة بنجاح!');
+            showToast('💾 تم تصدير النسخة الاحتياطية بنجاح!');
         }
 
         function importData(event) {
@@ -2232,7 +1814,7 @@
                     } else if(imported && typeof imported === 'object') {
                         if(imported.students) {
                             students = imported.students;
-                            localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(imported.students));
+                            localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(students));
                         }
                         if(imported.lessons) {
                             lessons = imported.lessons;
@@ -2245,10 +1827,6 @@
                         if(imported.lessonMastery) {
                             lessonMastery = imported.lessonMastery;
                             localStorage.setItem(getStorageKeyForMastery(), JSON.stringify(lessonMastery));
-                        }
-                        if(imported.autoGradingData) {
-                            autoGradingData = imported.autoGradingData;
-                            localStorage.setItem(getStorageKeyForAutoGrading(), JSON.stringify(autoGradingData));
                         }
                     }
                     renderLessons();
@@ -2317,7 +1895,7 @@
             document.getElementById('sdSkills').textContent = studentMasteredCount;
             document.getElementById('sdProjects').textContent = s.projects || 0;
             document.getElementById('sdMessages').textContent = s.messages || 0;
-            document.getElementById('sdPhone').textContent = s.phone || 'لا يوجد رقم جوال مسجل';
+            document.getElementById('sdPhone').textContent = s.phone || 'لا يوجد';
             
             updateLessonMsg();
             updateMotivationMsg();
@@ -2331,7 +1909,7 @@
             const btn = document.getElementById('whatsappLessonBtn');
 
             if(lessonIdx === "") {
-                preview.textContent = "اختر موضوع الدرس والمهارة أعلاه لتوليد نص الرسالة تلقائياً...";
+                preview.textContent = "اختر موضوع الدرس والمهارة أعلاه...";
                 btn.href = "#";
                 return;
             }
@@ -2378,7 +1956,7 @@
                 if (lessonMastery[selectedStudentIndex] && lessonMastery[selectedStudentIndex][lIdx]) studentMasteredCount++;
             });
 
-            const msg = `عزيزي ولي أمر الطالب / ${s.name} (${s.classCustom || currentGrade})\nنحيطكم علماً بمستوى ابنك وتقييمه في مادة العلوم حتى تاريخه:\n\n- المشاركات: ${s.participation || 0}\n- الواجبات: ${s.homework || 0}\n- أيام الغياب: ${s.absence || 0}\n- الدروس المتقنة: ${studentMasteredCount} من ${lessons.length}\n- التجارب: ${s.projects || 0}\n- اختبار الفترة الأولى: ${s.exam1 || 0}/20\n- اختبار الفترة الثانية: ${s.exam2 || 0}/20\n\nنشكر تعاونكم المستمر ودعمكم الدائم.\nمع تقديـرنا، المعلم: ${TEACHER_NAME} - ${SCHOOL_NAME}`;
+            const msg = `عزيزي ولي أمر الطالب / ${s.name} (${s.classCustom || currentGrade})\nنحيطكم علماً بمستوى ابنكم وتقييمه في مادة العلوم حتى تاريخه:\n\n- المشاركات: ${s.participation || 0}\n- الواجبات: ${s.homework || 0}\n- أيام الغياب: ${s.absence || 0}\n- الدروس المتقنة: ${studentMasteredCount} من ${lessons.length}\n- التجارب: ${s.projects || 0}\n- اختبار الفترة الأولى: ${s.exam1 || 0}/20\n- اختبار الفترة الثانية: ${s.exam2 || 0}/20\n\nنشكر تعاونكم المستمر.\nمع تقديـرنا، المعلم: ${TEACHER_NAME} - ${SCHOOL_NAME}`;
             
             incrementMessageCount(selectedStudentIndex);
             const formattedPhone = s.phone ? `966${s.phone.replace(/^0+/, '')}` : '';
@@ -2416,7 +1994,7 @@
             const preview = document.getElementById('bulkHomeworkMsgPreview');
 
             if(!val) {
-                preview.textContent = "اختر الصف والدرس وأدخل تفاصيل الواجب لعرض نموذج رسالة الواجب الجماعية...";
+                preview.textContent = "اختر الصف والدرس وأدخل تفاصيل الواجب...";
                 return;
             }
 
@@ -2456,7 +2034,7 @@
 
             targetStudents = targetStudents.filter(s => s.phone && s.phone.trim() !== '');
             if(targetStudents.length === 0) { 
-                alert('لا توجد أرقام جوالات مسجلة لطلاب هذا الصف'); 
+                alert('لا توجد أرقام جوالات مسجلة للطلاب المستهدفين'); 
                 return; 
             }
 
@@ -2473,22 +2051,22 @@
 
                 const itemDiv = document.createElement('div');
                 itemDiv.style.display = 'flex';
-                itemDiv.style.justifyContent = 'space-between';
-                itemDiv.style.alignItems = 'center';
+                itemDiv.style.flexDirection = 'column';
+                itemDiv.style.gap = '5px';
                 itemDiv.style.background = 'var(--card-bg)';
-                itemDiv.style.padding = '7px 9px';
+                itemDiv.style.padding = '8px';
                 itemDiv.style.borderRadius = '6px';
                 itemDiv.style.border = '1px solid rgba(0,0,0,0.1)';
 
                 itemDiv.innerHTML = `
-                    <div style="font-size:11px;"><strong>${s.name}</strong> <span class="class-badge" style="font-size:9px;">${s.classCustom || currentGrade}</span></div>
-                    <a href="${link}" target="_blank" class="whatsapp-btn" style="margin-top:0; padding:4px 8px; font-size:10px;" onclick="markMessageSentFromBulk(${globalIdx}, this)">📤 إرسال</a>
+                    <div style="font-size:12px;"><strong>${s.name}</strong> <span class="class-badge" style="font-size:10px;">${s.classCustom || currentGrade}</span></div>
+                    <a href="${link}" target="_blank" class="whatsapp-btn" style="margin-top:0; padding:6px; font-size:11px;" onclick="markMessageSentFromBulk(${globalIdx}, this)">📤 إرسال</a>
                 `;
                 listContainer.appendChild(itemDiv);
             });
 
             panel.style.display = 'block';
-            showToast(`🚀 تم تجهيز قائمة إرسال لعدد (${targetStudents.length}) ولي أمر بنجاح!`);
+            showToast(`🚀 تم تجهيز قائمة إرسال لعدد (${targetStudents.length}) ولي أمر!`);
         }
 
         function markMessageSentFromBulk(globalIdx, btnElement) {
@@ -2506,21 +2084,69 @@
             localStorage.setItem('mansour_science_theme_v5', themeName);
         }
 
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onscroll = function() {
+            const topBtn = document.getElementById('scrollToTopBtn');
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                topBtn.style.display = 'flex';
+            } else {
+                topBtn.style.display = 'none';
+            }
+        };
+
         const savedTheme = localStorage.getItem('mansour_science_theme_v5');
         if(savedTheme) document.body.className = savedTheme;
 
+        // ==========================================
+        // إدارة تثبيت التطبيق PWA للجوال
+        // ==========================================
+        let deferredPrompt;
+        const installBtn = document.getElementById('pwaInstallBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (installBtn) {
+                installBtn.style.display = 'flex';
+            }
+        });
+
+        function installPWAApp() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    showToast('🎉 تم تثبيت اللوحة على شاشة جهازك بنجاح!');
+                }
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            });
+        }
+
+        window.addEventListener('appinstalled', () => {
+            if (installBtn) installBtn.style.display = 'none';
+            deferredPrompt = null;
+        });
+
         window.onload = function() {
             renderLessons();
-            initExamModelsDropdowns();
             render();
             checkBackupReminder();
+
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js').catch((err) => {
+                    console.log('Service Worker registration skipped or failed: ', err);
+                });
+            }
         };
 
         function backupAllData() {
             const fullBackup = {
                 students: typeof students !== 'undefined' ? students : [],
                 lessons: typeof lessons !== 'undefined' ? lessons : [],
-                autoGradingData: typeof autoGradingData !== 'undefined' ? autoGradingData : {},
                 timestamp: new Date().toLocaleString('ar-SA')
             };
 
@@ -2545,7 +2171,6 @@
                     if(imported) {
                         if(imported.students) localStorage.setItem(getStorageKeyForStudents(), JSON.stringify(imported.students));
                         if(imported.lessons) localStorage.setItem(getStorageKeyForLessons(), JSON.stringify(imported.lessons));
-                        if(imported.autoGradingData) localStorage.setItem(getStorageKeyForAutoGrading(), JSON.stringify(imported.autoGradingData));
                         alert('📂 تم استرجاع البيانات بنجاح!');
                         location.reload();
                     } else {
@@ -2562,3 +2187,4 @@
     </script>
 </body>
 </html>
+
